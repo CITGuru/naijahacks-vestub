@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 
-<<<<<<< HEAD
 const PORT = process.env.PORT || 3000;
+
+const africasTalkingAPIKey = "886fb8ccbed537bfb4a7e552588cfc91c40116728c63b9f342dc05727043ea69"
+const africasTalkingUsername = "swiftscores"
 
 app.set("port", PORT);
 
@@ -34,14 +36,3 @@ app.listen(app.get('port'), function(){
     console.log( 'Express started on http://localhost:' +
     app.get('port') + '; press Ctrl-C to terminate.' );
 });
-=======
-
-app.get('/', (req, res, next) => {
-    res.send(`Server started on port ${PORT}`);
-})
-
-
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-});
->>>>>>> 5c4401524528d609b30aaf08dcdeff9e7b08a9d7

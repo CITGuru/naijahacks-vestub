@@ -11,13 +11,10 @@ app.set("port", PORT);
 
 const gateway    = AfricasTalking({ username: africasTalkingUsername, apiKey: africasTalkingAPIKey });
 
-console.log(gateway.USSD)
-// console.log(JSON.stringify(gateway.USSD))
-
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'src')));
-app.set('src', path.join(__dirname, 'src'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('public', path.join(__dirname, 'public'));
 app.set('view engine', 'html');
 
 app.get('/', function(req, res){

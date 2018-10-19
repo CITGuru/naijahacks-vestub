@@ -61,7 +61,7 @@ gulp.task('browser-sync', function () {
 
 // Build task to initiate minify tasks for CSS and JS
 gulp.task('build', [
-    'minify-html', 'pack-minify-js', 'pack-minify-css','copy-img', 'copy-css','js','sass','fonts'
+    'minify-html', 'pack-minify-js', 'pack-minify-css','copy-img', 'copy-css', 'copy-js','copy-fonts','js','sass','fonts'
 ])
 
 gulp.task('setup', ['build']);
@@ -119,8 +119,18 @@ gulp.task('copy-img', function () {
 })
 
 gulp.task('copy-css', function () {
-  return gulp.src('src/css/*.min.css')
+  return gulp.src('src/css/*.css')
     .pipe(gulp.dest('public/css'))
+})
+
+gulp.task('copy-js', function () {
+  return gulp.src('src/js/*.js')
+    .pipe(gulp.dest('public/js'))
+})
+
+gulp.task('copy-fonts', function () {
+  return gulp.src('src/fonts/*')
+    .pipe(gulp.dest('public/fonts'))
 })
 
 // Task to delete target assets folder for recreation

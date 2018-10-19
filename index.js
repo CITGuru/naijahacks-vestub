@@ -21,6 +21,10 @@ app.get('/', function(req, res){
     res.render("index");
 });
 
+app.post('/ussd', (req,res) => {
+    console.log(req.body)
+})
+
 app.use(function(req, res){
     res.type("text/plain"),
     res.status(404);

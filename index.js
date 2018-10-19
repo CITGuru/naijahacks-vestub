@@ -1,4 +1,5 @@
 const express = require("express");
+const AfricasTalking = require('africastalking');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -8,6 +9,10 @@ const africasTalkingUsername = "swiftscores"
 
 app.set("port", PORT);
 
+const gateway    = AfricasTalking({ username: africasTalkingUsername, apiKey: africasTalkingAPIKey });
+
+console.log(gateway.USSD)
+// console.log(JSON.stringify(gateway.USSD))
 
 const path = require('path');
 

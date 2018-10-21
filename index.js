@@ -1,19 +1,22 @@
-const express = require("express");
-const AfricasTalking = require('africastalking');
-const app = express();
+const express = require("express"),
+    AfricasTalking = require('africastalking'),
+    app = express(),
 
-const PORT = process.env.PORT || 3000;
+    PORT = process.env.PORT || 3000,
 
-const africasTalkingAPIKey = "886fb8ccbed537bfb4a7e552588cfc91c40116728c63b9f342dc05727043ea69"
-const africasTalkingUsername = "swiftscores",
+    africasTalkingAPIKey = "886fb8ccbed537bfb4a7e552588cfc91c40116728c63b9f342dc05727043ea69",
+    africasTalkingUsername = "swiftscores",
+    bodyParser = require('body-parser'),
     liveScores = require('./lib/scores')
 
-app.set("port", PORT);
+    app.set("port", PORT);
+    
+    app.use(bodyParser.json());
 
-const gateway = AfricasTalking({
-    username: africasTalkingUsername,
-    apiKey: africasTalkingAPIKey
-});
+    const gateway = AfricasTalking({
+        username: africasTalkingUsername,
+        apiKey: africasTalkingAPIKey
+    });
 
 const path = require('path');
 
@@ -41,13 +44,13 @@ var orderDetails = {
 }
 var lastData = "";
 
-app.post('/ussd', (req,res) => {
+app.post('/ussd', (req, res) => {
     console.log(req.body)
     res.status(200)
-    .send(req.body)
+        .send(req.body)
 })
 
-app.use(function(req, res){
+app.use(function (req, res) {
     res.type("text/plain"),
         res.status(404);
     res.send('404 - Not Found');

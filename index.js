@@ -1,24 +1,34 @@
 const express = require("express"),
+    $ENV = process.env,
+    axios = require('axios'),
     AfricasTalking = require('africastalking'),
     app = express(),
 
     PORT = process.env.PORT || 3000,
 
-    africasTalkingAPIKey = "886fb8ccbed537bfb4a7e552588cfc91c40116728c63b9f342dc05727043ea69",
-    africasTalkingUsername = "swiftscores",
+    africasTalkingAPIKey = $ENV.africasTalkingAPIKey || "886fb8ccbed537bfb4a7e552588cfc91c40116728c63b9f342dc05727043ea69",
+    africasTalkingUsername = $ENV.africasTalkingUsername || "swiftscores",
     bodyParser = require('body-parser'),
-    liveScores = require('./lib/scores')
+    liveScores = require('./lib/scores'),
+    cors = require('cors'),
+    path = require('path')
 
-    app.set("port", PORT);
-    
-    app.use(bodyParser.json());
+app.set("port", PORT);
 
-    const gateway = AfricasTalking({
-        username: africasTalkingUsername,
-        apiKey: africasTalkingAPIKey
-    });
+app.use(cors())
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+app.use(bodyParser.json());
 
-const path = require('path');
+
+
+
+
+const gateway = AfricasTalking({
+    username: africasTalkingUsername,
+    apiKey: africasTalkingAPIKey
+});
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,9 +55,41 @@ var orderDetails = {
 var lastData = "";
 
 app.post('/ussd', (req, res) => {
-    console.log(req.body)
+
+
+    var sessionId = req.body.sessionId
+    var serviceCode = req.body.serviceCode
+    var phoneNumber = req.body.phoneNumber
+    var text = req.body.text
+    var textValue = text.split('*').length
+
+    let message = ''
+
+    if (text === '') {
+        message = welcomeMsg
+    } else if (textValue === 1) {
+        message = "CON What do you want to eat?"
+        orderDetails.name = text;
+    } else if (textValue === 2) {
+        message = "CON Where do we deliver it?"
+        orderDetails.description = text.split('*')[1];
+    } else if (textValue === 3) {
+        message = "CON What's your telephone number?"
+        orderDetails.address = text.split('*')[2];
+    } else if (textValue === 4) {
+        message = `CON Would you like to place this order?
+        1. Yes
+        2. No`
+        lastData = text.split('*')[3];
+    } else {
+        message = `END Thanks for your order
+        Enjoy your meal in advance`
+        orderDetails.telephone = lastData
+    }
+    res.contentType('text/plain');
+    // console.log(req.body)
     res.status(200)
-        .send(req.body)
+        .send(message)
 })
 
 app.use(function (req, res) {
@@ -69,4 +111,4 @@ app.listen(app.get('port'), () => {
 });
 
 
-liveScores.getCompetition('169')
+// liveScores.getCompetition('169')

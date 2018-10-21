@@ -74,4 +74,4 @@ app.listen(app.get('port'), () => {
 });
 
 
-// liveScores.getCompetition('169')
+liveScores.getCompetition('169')

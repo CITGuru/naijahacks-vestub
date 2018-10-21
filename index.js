@@ -13,6 +13,7 @@ const gateway    = AfricasTalking({ username: africasTalkingUsername, apiKey: af
 
 const path = require('path');
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('public', path.join(__dirname, 'public'));
 app.set('view engine', 'html');
@@ -20,6 +21,25 @@ app.set('view engine', 'html');
 app.get('/', function(req, res){
     res.render("index");
 });
+
+var webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
+var welcomeMsg = `CON Hello and Welcome to SwiftScore.
+It seems you are a new customer.
+Please find our docs here ${webURL}
+Enter your name to continue`
+
+var orderDetails = {
+    name: "",
+    description: "",
+    address: "",
+    telephone: "",
+    open: true
+}
+var lastData = "";
+
+app.post('/ussd', (req,res) => {
+    console.log(req.body)
+})
 
 app.use(function(req, res){
     res.type("text/plain"),

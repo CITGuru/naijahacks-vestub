@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const AfricasTalking = require('africastalking');
 const app = express();
 
@@ -18,6 +19,9 @@ const gateway = AfricasTalking({
 const path = require('path');
 
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('public', path.join(__dirname, 'public'));
 app.set('view engine', 'html');
@@ -25,6 +29,10 @@ app.set('view engine', 'html');
 app.get('/', (req, res) => {
     res.render("index");
 });
+
+const users = require('./routes/user.route');
+
+app.use('/users', users);
 
 var webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
 var welcomeMsg = `CON Hello and Welcome to SwiftScore.
@@ -66,4 +74,4 @@ app.listen(app.get('port'), () => {
 });
 
 
-liveScores.getCompetition('169')
+// liveScores.getCompetition('169')

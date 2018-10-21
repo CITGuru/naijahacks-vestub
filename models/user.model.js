@@ -1,20 +1,20 @@
 const mongoose = require('mongoose'),
-Schema = mongoose.Schema,
-MONGODBI_URI = $ENV.MONGODBI_URI || 'mongodb:localhost/scoreDB',
-DBAutoIncrement = require('mongoose-auto-increment')
-
-// Connect to database
-let connection = mongoose.createConnection(`${MONGODBI_URI}`, {
+DBAutoIncrement = require('mongoose-auto-increment'),
+MONGODBI_URI = process.env.MONGODBI_URI || 'mongodb://localhost:27017/swiftscore',
+Schema = mongoose.Schema
+mongoose.connect(MONGODBI_URI, {
     useNewUrlParser: true
-})
+});
+mongoose.Promise = global.Promise;
+const connection = mongoose.connection;
 
-// Initialize DB auto increment
+// connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 DBAutoIncrement.initialize(connection)
 
 let UserSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, max: 255 },
-    phone: { type: String, required: true, max: 255 },
+    phone: { type: String, required: true, max: 20, unique:true },
     date: { type: Date, default: Date.now }
 });
 

@@ -25,7 +25,11 @@ app.get('/', (req, res) => {
     res.render("index");
 });
 
-app.use((req, res) => {
+app.post('/ussd', (req,res) => {
+    console.log(req.body)
+})
+
+app.use(function(req, res){
     res.type("text/plain"),
         res.status(404);
     res.send('404 - Not Found');

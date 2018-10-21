@@ -43,6 +43,7 @@ var lastData = "";
 
 app.post('/ussd', (req,res) => {
     console.log(req.body)
+    res.status(200).send(reg.body)
 })
 
 app.use(function(req, res){

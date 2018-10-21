@@ -11,7 +11,10 @@ router.get('/:phone', user.get);
 
 router.post('/', user.create);
 
-router.put('/:id', user.update);
+router.put('/:phone', user.update);
+
+router.delete('/:phone', user.delete);
+
 
 
 module.exports = router;

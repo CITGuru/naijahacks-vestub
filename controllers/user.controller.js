@@ -1,15 +1,12 @@
 const User = require('../models/user.model');
 
-//Simple version, without validation or sanitation
 exports.create = (req, res)=> {
-    console.log(req.body)
     let user = new User(
         {
             name: req.body.name,
             phone: req.body.phone
         }
     );
-
     user.save();
     res.status(201).send(user) 
 };
@@ -30,6 +27,22 @@ exports.get = (req, res)=> {
 };
 
 exports.update = (req, res)=> {
-    res.send('Greetings from the Test controller! : Update');
-    console.log(req.body)
+    User.findOneAndUpdate({phone:req.params.phone}, req.body, (err, user) => {
+        if (err) {
+            res.status(404).json({error:"Not Found!"})
+        }
+        res.status(200).json(user)
+    })
+};
+
+exports.delete = (req, res)=> {
+    console.log(req.params.phone);
+    User.findOneAndRemove({phone:req.params.phone}, (err, user) => {
+        if (err) {
+            res.status(404).json({"error":"Not Found!"});
+        }
+        else {
+            res.status(204).json({"message":"Deleted"});     
+        }
+    })
 };

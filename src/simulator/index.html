@@ -19,7 +19,7 @@
                     <form method="GET">
                         <div class="form-row">
                             <div class="col col-md-5">
-                                <select class="custom-select js-phone-country" id="country">
+                                <select required class="custom-select js-phone-country" name="country" id="country">
                                     <option value="+995">Georgia</option>
                                     <option value="+690">Tokelau</option>
                                     <option value="+358">Aland</option>
@@ -263,7 +263,7 @@
                                 <label for="country"></label>
                             </div>
                             <div class="col col-md-7">
-                                <input type="text" class="form-control" name="session_number" id="number" placeholder="Phone Number">
+                                <input type="text" required class="form-control" name="phone_number" id="number" placeholder="Phone Number">
                                 <label for="number"></label>
                             </div>
                         </div>

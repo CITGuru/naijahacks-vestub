@@ -13,6 +13,7 @@ exports.create = (req, res)=> {
 
 exports.get_users = (req, res)=> {
     User.find({}, (err, users) => {
+        if(err) res.status(500).json({error: "Internal server error"});
         res.status(200).json(users)
     })  
 };

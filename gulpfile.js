@@ -39,6 +39,13 @@ gulp.task('fonts', () => {
 
 });
 
+gulp.task('font', () => {
+  return gulp.src(['node_modules/mdbootstrap/font/roboto/*'])
+    .pipe(gulp.dest('src/font/'))
+    .pipe(browserSync.stream());
+
+});
+
 gulp.task('js', () => {
   return gulp.src([
     'node_modules/bootstrap/dist/js/bootstrap.min.js', 
@@ -55,7 +62,7 @@ gulp.task('js', () => {
 });
 
 // Default Gulp task to run including all necessary dependencies
-gulp.task('default', ['browser-sync', 'build', 'fonts', 'sass', 'js'], () => {
+gulp.task('default', ['browser-sync', 'build'], () => {
   gulp.watch(['src/**/*.html', 'src/js/*.js',
     'src/css/*.css'
   ], ['build'])
@@ -71,10 +78,9 @@ gulp.task('browser-sync', () => {
   })
 })
 
-
 // Build task to initiate minify tasks for CSS and JS
 gulp.task('build', [
-  'minify-html', 'pack-minify-js', 'pack-minify-css', 'copy-img', 'copy-css', 'copy-js', 'copy-fonts', 'js', 'sass', 'fonts'
+  'minify-html', 'pack-minify-js', 'pack-minify-css', 'copy-img', 'copy-css', 'copy-js', 'copy-fonts','copy-font', 'js', 'sass', 'fonts', 'font'
 ])
 
 gulp.task('setup', ['build']);
@@ -146,6 +152,11 @@ gulp.task('copy-js', () => {
 gulp.task('copy-fonts', () => {
   return gulp.src('src/fonts/*')
     .pipe(gulp.dest('public/fonts'))
+})
+
+gulp.task('copy-font', () => {
+  return gulp.src('src/font/*')
+    .pipe(gulp.dest('public/font'))
 })
 
 // Task to delete target assets folder for recreation

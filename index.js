@@ -1,3 +1,5 @@
+require('custom-env').env()
+
 const express = require("express"),
     $ENV = process.env,
     axios = require('axios'),
@@ -32,6 +34,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('public', path.join(__dirname, 'public'));
+// app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.get('/', (req, res) => {
@@ -45,8 +48,6 @@ app.use('/users', users);
 let webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
 
 let welcomeMsg = `CON Hello and Welcome to SwiftScores.`
-
-
 
 let orderDetails = {
     name: "",
@@ -62,7 +63,7 @@ var phoneSessionObject = {}
 var lastAction = ''
 
 app.get('/simulator', (req, res) => {
-
+    res.render("simulator")
 })
 
 app.post('/ussd', (req, res) => {

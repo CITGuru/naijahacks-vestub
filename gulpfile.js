@@ -82,7 +82,7 @@ gulp.task('setup', ['build']);
 
 // Task to minify HTML
 gulp.task('minify-html', () => {
-  return gulp.src('src/*.html')
+  return gulp.src(['src/*.html', 'src/**/*.html'])
     .pipe(htmlmin({
       collapseWhitespace: true
     }))
@@ -130,7 +130,7 @@ gulp.task('pack-minify-css', () => {
 // // Task to copy assets
 gulp.task('copy-img', () => {
   return gulp.src('src/assets/img/*')
-    .pipe(gulp.dest('public/assets/img'))
+    .pipe(gulp.dest('public/img'))
 })
 
 gulp.task('copy-css', () => {

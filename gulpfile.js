@@ -16,11 +16,16 @@ const gulp = require('gulp'),
 
 
 gulp.task('sass', () => {
-  return gulp.src(['./src/scss/*.scss', 'node_modules/bootstrap/scss/bootstrap.scss', 'node_modules/font-awesome/scss/font-awesome.scss'])
+  return gulp.src([
+    './src/scss/*.scss', 
+    'node_modules/bootstrap/scss/bootstrap.scss', 
+    'node_modules/mdbootstrap/scss/mdb.scss',
+    'node_modules/font-awesome/scss/font-awesome.scss'
+    ])
     .pipe(sass({
       errLogToConsole: true,
       sourceComments: true,
-      includePaths: ['node_modules/bootstrap/scss', 'node_modules/font-awesome/scss']
+      includePaths: ['node_modules/bootstrap/scss', 'node_modules/mdbootstrap/scss', 'node_modules/font-awesome/scss']
     }).on('error', sass.logError))
     .pipe(gulp.dest('./src/css'))
     .pipe(browserSync.stream());
@@ -35,7 +40,15 @@ gulp.task('fonts', () => {
 });
 
 gulp.task('js', () => {
-  return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.min.js', 'node_modules/tether/dist/js/tether.min.js'])
+  return gulp.src([
+    'node_modules/bootstrap/dist/js/bootstrap.min.js', 
+    'node_modules/jquery/dist/jquery.min.js', 
+    'node_modules/tether/dist/js/tether.min.js',
+    'node_modules/mdbootstrap/js/mdb.min.js',
+    'node_modules/mdbootstrap/js/popper.min.js'
+
+
+  ])
     .pipe(gulp.dest("./src/js"))
     .pipe(browserSync.stream());
 

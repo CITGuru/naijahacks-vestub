@@ -9,7 +9,8 @@ const express = require("express"),
     bodyParser = require('body-parser'),
     liveScores = require('./lib/scores'),
     cors = require('cors'),
-    path = require('path');
+    path = require('path'),
+    User = require('./controllers/user.controller')
 
 app.set("port", PORT);
 
@@ -25,7 +26,9 @@ const gateway = AfricasTalking({
 });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('public', path.join(__dirname, 'public'));
@@ -39,34 +42,59 @@ const users = require('./routes/user.route');
 
 app.use('/users', users);
 
-var webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
-var welcomeMsg = `CON Hello and Welcome to SwiftScore.
-It seems you are a new customer.
-Please find our docs here ${webURL}
-Enter your name to continue`
+let webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
 
-var orderDetails = {
+let welcomeMsg = `CON Hello and Welcome to SwiftScores.`
+
+
+
+let orderDetails = {
     name: "",
     description: "",
     address: "",
     telephone: "",
     open: true
 }
+
 var lastData = "";
+
+var phoneSessionObject = {}
+var lastAction = ''
+
+app.get('/simulator', (req, res) => {
+
+})
 
 app.post('/ussd', (req, res) => {
 
-    var sessionId = req.body.sessionId
-    var serviceCode = req.body.serviceCode
-    var phoneNumber = req.body.phoneNumber
-    var text = req.body.text
-    var textValue = text.split('*').length
+    var sessionPhone = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false
+
+    if (!sessionPhone) {
+        res.status(400).json({
+            'Error': 'Please provide a session number'
+        })
+    }
+
+    phoneSessionObject[sessionPhone].action = req.body.text
+
+    var lastAction = phoneSessionObject[sessionPhone].action
+
+    let serviceCode = req.body.serviceCode
+    let phoneNumber = req.body.phoneNumber
+    let text = req.body.text
+    let textValue = text.split('*').length
 
     let message = ''
 
     if (text === '') {
+        welcomeMsg += `
+        Please enter your phone number to continue.
+        `
         message = welcomeMsg
     } else if (textValue === 1) {
+        // Check if current user is registered user
+        phoneNumber = sessionObj.sessionId.phoneNumber = textValue
+        User.get()
         message = "CON What do you want to eat?"
         orderDetails.name = text;
     } else if (textValue === 2) {

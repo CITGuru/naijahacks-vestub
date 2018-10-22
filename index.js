@@ -81,19 +81,21 @@ app.post('/ussd', (req, res) => {
 
     let serviceCode = req.body.serviceCode
     let phoneNumber = req.body.phoneNumber
-    let text = req.body.text
+    let text = lastAction
     let textValue = text.split('*').length
 
     let message = ''
 
     if (text === '') {
         welcomeMsg += `
-        Please enter your phone number to continue.
+        Please enter your phone number to continue. Enter 0 for the current number
         `
         message = welcomeMsg
     } else if (textValue === 1) {
         // Check if current user is registered user
-        phoneNumber = sessionObj.sessionId.phoneNumber = textValue
+        if(lastAction == 0) {
+            
+        }
         User.get()
         message = "CON What do you want to eat?"
         orderDetails.name = text;

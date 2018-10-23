@@ -1,10 +1,13 @@
+require('custom-env').env()
 const express = require("express"),
     $ENV = process.env,
     axios = require('axios'),
     AfricasTalking = require('africastalking'),
     app = express(),
     PORT = process.env.PORT || 3000,
-    africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
+    appURL = `${$ENV.appURL}:${$ENV}` || 'http://localhost:3000',
+    usersAPIBase = `${appURL}${$ENV.usersAPIBase}` || `http://localhost:3000/users`
+africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
     africasTalkingUsername = $ENV.africasTalkingUsername || "swiftscores",
     bodyParser = require('body-parser'),
     liveScores = require('./lib/scores'),
@@ -31,8 +34,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('public', path.join(__dirname, 'public'));
-app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'projects'));
+console.log(app.get('views'))
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
     res.render("index");
@@ -74,29 +78,103 @@ app.post('/ussd', (req, res) => {
             'Error': 'Please provide a session number'
         })
     }
+    phoneSessionObject[sessionPhone].action = 'start'
 
-    phoneSessionObject[sessionPhone].action = req.body.text
-
-    var lastAction = phoneSessionObject[sessionPhone].action
 
     let serviceCode = req.body.serviceCode
     let phoneNumber = req.body.phoneNumber
-    let text = lastAction
+    let rawText = req.body.text.split("*")
+
+    // Get the last user input
+    let text = rawText[rawText.length - 1]
+
     let textValue = text.split('*').length
 
     let message = ''
 
     if (text === '') {
+        // Check if current number is registered
+        var lastAction = phoneSessionObject[sessionPhone].action = ''
+
+        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
+            if (result.status == 200) {
+                phoneSessionObject[sessionPhone].action = 'leagueSelect'
+                // Get Leaugues
+                message = `Please select your preferred league\n`
+
+                // Get leauges
+                // liveScores.getCompetition()
+                liveScores.getCountries().then(data => {
+                    Promise.all(data.map(liveScores.getCompetition)).then(data => {
+                        // var new_result = ...data
+                        var leagueNames = []
+                        var resolved_values = data.map(val => {
+                            return val.data
+                        })
+
+                        var leagueNames = []
+                        var leaguePosition = []
+
+                        for (let v of resolved_values[0]) {
+                            leagueNames.push(v.league_name)
+                            leaguePosition.push(v)
+                        }
+
+                        // Data resolved
+                        var mesgStr = leagueNames.reduce((a, b, i) => {
+                            return a + `${i+1}. ${b}\n`
+                        }, '')
+                        // message
+                        // console.log(mesgStr)
+                        message += mesgStr
+
+                        res.status(200).json({
+                            text: message
+                        });
+                    })
+
+                }).catch(err => {
+                    console.log(err)
+                })
+
+            } else {
+                message = `${welcomeMsg}
+                Please enter your phone number to continue. Enter 0 for the current number`
+                phoneSessionObject[sessionPhone].action = 'firstname'
+            }
+
+        }).catch(err => {
+            console.log(err)
+            result.status(500).json({
+                'Error': 'Cannot get user details'
+            })
+        })
         welcomeMsg += `
-        Please enter your phone number to continue. Enter 0 for the current number
+        
         `
         message = welcomeMsg
     } else if (textValue === 1) {
         // Check if current user is registered user
-        if(lastAction == 0) {
-            
+        if (lastAction == 0) {
+            let phoneNumber = sessionPhone
+        } else {
+            let phoneNumber = lastAction.trim()
         }
-        User.get()
+
+        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
+            if (result.status == 404) {
+                phoneSessionObject[sessionPhone].action = 'firstname'
+                message = 'CON Please enter your First name'
+            } else {
+                message = 'CON User with this number has already registered.'
+            }
+
+        }).catch(err => {
+            console.log(err)
+            result.status(500).json({
+                'Error': 'Cannot get user details'
+            })
+        })
         message = "CON What do you want to eat?"
         orderDetails.name = text;
     } else if (textValue === 2) {
@@ -140,4 +218,4 @@ app.listen(app.get('port'), () => {
 });
 
 
-// liveScores.getCompetition('169')
+// liveScores.getLeagues()

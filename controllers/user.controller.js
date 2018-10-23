@@ -21,9 +21,13 @@ exports.get_users = (req, res)=> {
 exports.get = (req, res)=> {
     User.findOne({phone:req.params.phone}, (err, user) => {
         if (err) {
-            res.status(404).json({error:"Not Found!"})
+            res.status(500).json({error:"Inter server error!"})
         }
-        res.status(200).json(user)
+        if(user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({error:"Not Found"})
+        }
     })  
 };
 

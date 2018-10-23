@@ -287,8 +287,8 @@ background-color: cadetblue;
 .mobile-header .title {
     font-size: 1rem;
     letter-spacing: .5px;
-    color: #fff;
-    margin-left: .5rem;
+	color: #fff;
+	margin-bottom: 0px;
 }
 
 .mobile-header .info-strip {

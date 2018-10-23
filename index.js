@@ -49,11 +49,11 @@ app.get('/simulator', (req, res) => {
 
 app.post('/simulator/ussd', (req, res) => {
     let session_number =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    res.render("ussd", Object.assign({"title":"USSD Mobile Simulator", "session_number":session_number}, req.body))
+    res.render("ussd", Object.assign({"title":"USSD Mobile Simulator", "sessionNumber":session_number}, req.body))
 })
 
 app.get('/simulator/ussd', (req, res) => {
-    res.render("ussd", {"title":"USSD Mobile Simulator"})
+    res.redirect("/simulator")
 })
 const users = require('./routes/user.route');
 

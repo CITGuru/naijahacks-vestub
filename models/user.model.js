@@ -3,7 +3,7 @@ DBAutoIncrement = require('mongoose-auto-increment'),
 MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/swiftscore',
 Schema = mongoose.Schema
 
-mongoose.connect(MONGODBI_URI, {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;

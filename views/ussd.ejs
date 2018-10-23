@@ -99,8 +99,11 @@
                         <div class="modal fade" id="ussdModal" tabindex="-1" role="dialog" aria-labelledby="ussdModal" aria-hidden="true">
                             <div class="modal-dialog col-md-5" style="margin-top:190px;" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-body text-center">
-                                        <div class="display"></div>
+                                    <div class="modal-">
+                                        <div class="display px-3 py-3"></div>
+                                        <div class="form-md">
+                                            <input type="text" class="form-control" name="text" id="text">
+                                        </div>
                                         <div class="md-form input-group" style="margin:0px;">
                                             <div class="input-group-prepend" style="width: 100%;">
                                                 <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
@@ -138,7 +141,9 @@
                 success: function(res) {
                     $("#loader").modal("hide");
                     $("#ussdModal").modal("show")
-                    $("#ussdModal .display").html(res.text);
+                    let backdrop = $(".modal-backdrop").detach();
+                    $(".mobile-content-inner").append(backdrop);
+                    $("#ussdModal .display").html(res.text.replace('\n', '<br />'));
                 },
                 err: function(err) {
                 $("#info").html(err.text)

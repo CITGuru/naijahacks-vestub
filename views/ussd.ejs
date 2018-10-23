@@ -42,64 +42,65 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="modal fade" id="loader" tabindex="-1" role="dialog" aria-labelledby="loader" aria-hidden="true">
+                            <div class="modal-dialog col-md-5" style="margin-top:190px;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body text-center">
+                                        <div class="preloader-wrapper big active">
+                                            <div class="spinner-layer spinner-blue">
+                                                <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                            <div class="spinner-layer spinner-red">
+                                                <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                            <div class="spinner-layer spinner-yellow">
+                                                <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                            <div class="spinner-layer spinner-green">
+                                                <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <div class="modal fade right" id="loader" tabindex="-1" role="dialog" aria-labelledby="loader" aria-hidden="true">
-            <div class="modal-dialog modal-side modal-top-right" role="document">
-                <div class="modal-body">
-                    <div class="preloader-wrapper big active">
-                        <div class="spinner-layer spinner-blue">
-                            <div class="circle-clipper left">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                            <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-red">
-                            <div class="circle-clipper left">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                            <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-yellow">
-                            <div class="circle-clipper left">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                            <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-green">
-                            <div class="circle-clipper left">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                            <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                            <div class="circle"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
          
     <% include ./script %> 
     
@@ -108,6 +109,8 @@
             e.preventDefault();
             let data = $(e.target).serialize();
             $("#loader").modal("show");
+            let backdrop = $(".modal-backdrop").detach();
+            $(".mobile-content-inner").append(backdrop);
         })
     </script>
     </body>

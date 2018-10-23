@@ -1,6 +1,43 @@
 <% include ./head %> 
-<body>
+<link href="/css/mdb.min.css" rel="stylesheet">
+<style type="text/css">
+  html,
+  body,
+  header,
+  .intro-2 {
+    height: 100%;
+  }
 
+  @media (max-width: 740px) {
+    html,
+    body,
+    header,
+    .intro-2 {
+      height: 900px;
+    }
+  }
+
+  @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .intro-2 {
+        height: 980px;
+      }
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+          background: #5991fb!important;
+      }
+      .navbar {
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12) !important;
+      }
+  }
+</style>
+<body class="software-lp">
+
+
+      <%#
         <!-- Start your project here-->
        <!--Navbar-->
       <nav class="navbar navbar-expand-lg navbar-dark info-color">
@@ -105,7 +142,12 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-              
+      %>
+
+
+      <% include ./header %> 
+      
+      <main>
           <div class="main_content">
               <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-4">
@@ -180,15 +222,14 @@
               <button id="btn-prim" type="button" class="btn btn-primary">Submit</button>
           </div>
           
+      </main>
+      <div class="footer">
+              <div class="container">
           
-          
-          <div class="footer">
-                  <div class="container">
-              
-                  <p>copyright &copy; 2018</p>
-              </div>
-          
+              <p>copyright &copy; 2018</p>
           </div>
+      
+      </div>
           
           
           
@@ -196,6 +237,17 @@
       
         <!-- SCRIPTS -->
         <% include ./script %> 
+        <script>
+            //Animation init
+            new WOW().init();
+    
+            //Modal
+    
+            // Material Select Initialization
+            $(document).ready(function () {
+                $('.mdb-select').material_select();
+            });
+        </script>
         
       </body>
       

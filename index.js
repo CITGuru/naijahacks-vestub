@@ -33,14 +33,28 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('public', path.join(__dirname, 'public'));
-// app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 
 app.get('/', (req, res) => {
-    res.render("index");
+    res.render("index", {"title":"Homepage"});
 });
 
+app.get('/simulator', (req, res) => {
+    res.render("simulator", {"title":"USSD Mobile Simulator"})
+})
+
+app.post('/simulator/ussd', (req, res) => {
+    let session_number =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    res.render("ussd", Object.assign({"title":"USSD Mobile Simulator", "session_number":session_number}, req.body))
+})
+
+app.get('/simulator/ussd', (req, res) => {
+    res.render("ussd", {"title":"USSD Mobile Simulator"})
+})
 const users = require('./routes/user.route');
 
 app.use('/users', users);
@@ -62,13 +76,7 @@ var lastData = "";
 var phoneSessionObject = {}
 var lastAction = ''
 
-app.get('/simulator', (req, res) => {
-    res.render("simulator")
-})
 
-app.get('/simulator/ussd', (req, res) => {
-    res.render("ussd")
-})
 
 app.post('/ussd', (req, res) => {
 

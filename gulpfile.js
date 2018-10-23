@@ -53,8 +53,6 @@ gulp.task('js', () => {
     'node_modules/tether/dist/js/tether.min.js',
     'node_modules/mdbootstrap/js/mdb.min.js',
     'node_modules/mdbootstrap/js/popper.min.js'
-
-
   ])
     .pipe(gulp.dest("./src/js"))
     .pipe(browserSync.stream());
@@ -72,30 +70,20 @@ gulp.task('default', ['browser-sync'], () => {
 })
 
 
-gulp.task('watch', ['minify-html','pack-minify-js', 'pack-minify-css','copy-img', 'copy-css', 'copy-js',])
+gulp.task('watch', ['pack-minify-js', 'pack-minify-css','copy-img', 'copy-css', 'copy-js',])
 
 gulp.task('browser-sync', () => {
   browserSync.init({
-    server: './public'
+    server: './views'
   })
 })
 
 // Build task to initiate minify tasks for CSS and JS
 gulp.task('build', [
-  'minify-html', 'pack-minify-js', 'pack-minify-css', 'copy-img', 'copy-css', 'copy-js', 'copy-fonts','copy-font', 'js', 'sass', 'fonts', 'font'
+   'pack-minify-js', 'pack-minify-css', 'copy-img', 'copy-css', 'copy-js', 'copy-fonts','copy-font', 'js', 'sass', 'fonts', 'font'
 ])
 
 gulp.task('setup', ['build']);
-
-
-// Task to minify HTML
-gulp.task('minify-html', () => {
-  return gulp.src(['src/*.html', 'src/**/*.html'])
-    .pipe(htmlmin({
-      collapseWhitespace: true
-    }))
-    .pipe(gulp.dest('public/'))
-})
 
 // Task to uglify JS
 gulp.task('pack-minify-js', (cb) => {
@@ -127,7 +115,7 @@ gulp.task('pack-minify-css', () => {
 
 // // Task to copy assets
 gulp.task('copy-img', () => {
-  return gulp.src('src/assets/img/*')
+  return gulp.src(['src/assets/img/*', 'src/assets/img/**/*'])
     .pipe(gulp.dest('public/img'))
 })
 

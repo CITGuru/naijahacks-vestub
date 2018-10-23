@@ -1,4 +1,5 @@
 require('custom-env').env()
+
 const express = require("express"),
     $ENV = process.env,
     axios = require('axios'),
@@ -34,14 +35,29 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'projects'));
-console.log(app.get('views'))
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
 app.get('/', (req, res) => {
-    res.render("index");
+    res.render("index", {"title":"Homepage"});
 });
 
+app.get('/simulator', (req, res) => {
+    res.render("simulator", {"title":"USSD Mobile Simulator"})
+})
+
+app.post('/simulator/ussd', (req, res) => {
+    let session_number =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    res.render("ussd", Object.assign({"title":"USSD Mobile Simulator", "sessionNumber":session_number}, req.body))
+})
+
+app.get('/simulator/ussd', (req, res) => {
+    res.redirect("/simulator")
+})
 const users = require('./routes/user.route');
 
 app.use('/users', users);
@@ -49,8 +65,6 @@ app.use('/users', users);
 let webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
 
 let welcomeMsg = `CON Hello and Welcome to SwiftScores.`
-
-
 
 let orderDetails = {
     name: "",
@@ -65,9 +79,7 @@ var lastData = "";
 var phoneSessionObject = {}
 var lastAction = ''
 
-app.get('/simulator', (req, res) => {
 
-})
 
 app.post('/ussd', (req, res) => {
 

@@ -31,9 +31,9 @@
                         <div class="mobile-body">
                             <div class="mobile-body-inner mx-3 my-5 py-4">
                                 <form method="POST" id="ussd_call">
-                                    <input type="hidden" name="phoneNumber" value="<%= country %><%= phoneNumber %>">
-                                    <input type="hidden" name="country" value="<%= country %>">
-                                    <input type="hidden" name="sessionNumber" value="<%= sessionNumber %>">
+                                    <input type="hidden" id="phoneNumber" name="phoneNumber" value="<%= country %><%= phoneNumber %>">
+                                    <input type="hidden" id="country" name="country" value="<%= country %>">
+                                    <input type="hidden" id="sessionNumber" name="sessionNumber" value="<%= sessionNumber %>">
                                     <div class="form-md mb-3">
                                         <label for="service_code" class="font-weight-bold">USSD Code</label>
                                         <input type="text" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
@@ -96,6 +96,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="ussdModal" tabindex="-1" role="dialog" aria-labelledby="ussdModal" aria-hidden="true">
+                            <div class="modal-dialog col-md-5" style="margin-top:190px;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body text-center">
+                                        <div class="display"></div>
+                                        <div class="md-form input-group" style="margin:0px;">
+                                            <div class="input-group-prepend" style="width: 100%;">
+                                                <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
+                                                <button class="btn btn-ussd waves-effect m-0" type="button">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,12 +121,32 @@
     
     <script>
         $("#ussd_call").on("submit", (e)=>{
+            let Url = "/ussd"
             e.preventDefault();
             let data = $(e.target).serialize();
             $("#loader").modal("show");
             let backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
-        })
+            $.ajax({
+                url: '<%= ussdUrl %>',
+                'method': "POST",
+                data: {
+                    text: "",
+                    sessionNumber: $('#sessionNumber').val().trim(),
+                    phoneNumber: $('#phoneNumber').val().trim()
+                },
+                success: function(res) {
+                    $("#loader").modal("hide");
+                    $("#ussdModal").modal("show")
+                    $("#ussdModal .display").html(res.text);
+                },
+                err: function(err) {
+                $("#info").html(err.text)
+                $("#loader").modal("hide");
+                }
+            });
+        
+        });
     </script>
     </body>
     </html>

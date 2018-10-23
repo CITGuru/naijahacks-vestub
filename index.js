@@ -9,6 +9,7 @@ const express = require("express"),
     app = express(),
     PORT = process.env.PORT || 3000,
     appURL = `${$ENV.appURL}:${$ENV.PORT}` || 'http://localhost:3000',
+    ussdURL = `${appURL}/ussd` || 'http://localhost:3000/ussd',
     usersAPIBase = `${appURL}${$ENV.usersAPIBase}` || `http://localhost:3000/users`,
     africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
     africasTalkingUsername = $ENV.africasTalkingUsername || "swiftscores",
@@ -60,7 +61,9 @@ app.post('/simulator/ussd', (req, res) => {
     let session_number = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     res.render("ussd", Object.assign({
         "title": "USSD Mobile Simulator",
-        "sessionNumber": session_number
+        "sessionNumber": session_number,
+        "appUrl": appURL,
+        "ussdUrl": ussdURL
     }, req.body))
 })
 

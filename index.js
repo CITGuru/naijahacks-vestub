@@ -92,33 +92,31 @@ var userCred = {}
 app.post('/ussd', (req, res) => {
 
 
-    var sessionPhone = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false
+    var sessionNumber = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false
 
-    if (!sessionPhone) {
+    if (!sessionNumber) {
         res.status(400).json({
             'Error': 'Please provide a session number'
         })
     }
-    phoneSessionObject[sessionPhone] = phoneSessionObject[sessionPhone] || {}
-    phoneSessionObject[sessionPhone].action = 'start'
+    phoneSessionObject[sessionNumber] = phoneSessionObject[sessionNumber] || {}
 
 
-    let serviceCode = req.body.serviceCode
-    let phoneNumber = req.body.phoneNumber
-    let rawText = req.body.text.split("*")
+    var serviceCode = req.body.serviceCode
+    var phoneNumber = req.body.phoneNumber
+    var rawText = req.body.text.split("*")
 
     // Get the last user input
-    let text = rawText[rawText.length - 1]
+    var text = rawText[rawText.length - 1]
 
-    let textValue = text.split('*').length
+    var textValue = text.split('*').length
 
-    let message = ''
-    lastAction = phoneSessionObject[sessionPhone].action = ''
+    var message = ''
     // res.send(phoneSessionObject)
-    axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
 
-        if (text === '') {
-            phoneSessionObject[sessionPhone].action = 'leagueSelect'
+    if (text === '') {
+        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
+            phoneSessionObject[sessionNumber].action = 'leagueSelect'
             // Get Leaugues
             message = `Please select your preferred league\n`
 
@@ -157,75 +155,89 @@ app.post('/ussd', (req, res) => {
                 console.log(err)
             })
 
-        } else if (lastAction == 'phone') {
-            var text = text.trim()
-            if (text !== 0) {
-                var phone = text
-                if (!phone.match(/+?[0-9]{5,15}/igm)) {
-                    phoneSessionObject[sessionNumber].action = 'phone'
-                    res.send({
-                        'text': "Please provide a valid phone number"
-                    });
-                }
+        }).catch(err => {
+            console.log(err)
+
+            if (err.response.status == 404) {
+                message = `${welcomeMsg}
+                    Please enter your phone number to continue. Enter 0 for the current number`
+                phoneSessionObject[sessionNumber].action = 'phone'
+
+                console.log(phoneSessionObject[sessionNumber])
+
+                res.status(200).json({
+                    'text': message
+                })
             } else {
-                var phone = phoneNumber
+                phoneSessionObject[sessionNumber].action = 'phone'
+                result.status(500).json({
+                    'Error': 'Cannot get user details'
+                })
             }
-            axios.get(`${usersAPIBase}${text}`).then(res => {
+
+        })
+    } else {
+        console.log(phoneSessionObject[sessionNumber])
+    }
+    
+     if (phoneSessionObject[sessionNumber].action == 'phone') {
+        var text = text.trim()
+        // console.log('yes')
+        if (text != 0) {
+            var phone = text
+            if (!phone.match(/\+?[0-9]{5,15}/igm)) {
                 phoneSessionObject[sessionNumber].action = 'phone'
                 res.send({
-                    'text': "Phone number already used, please provide another"
+                    'text': "Please provide a valid phone number"
                 });
-            }).catch(err => {
-                if (err.response.status == 404) {
-                    // User does not exits
-                    // Process registration
-                    userCred[sessionNumber] = userCred[sessionNumber] || {}
-
-                    userCred[sessionNumber].phone = phone
-
-                } else {
-                    result.status(500).json({
-                        'Error': 'Cannot get user details'
-                    })
-                }
-            })
-        }
-    }).catch(err => {
-        console.log(err)
-
-        if (err.response.status == 404) {
-            message = `${welcomeMsg}
-                Please enter your phone number to continue. Enter 0 for the current number`
-            phoneSessionObject[sessionPhone].action = 'phone'
-
-            res.status(200).json({
-                'text': message
-            })
+            }
         } else {
-            result.status(500).json({
-                'Error': 'Cannot get user details'
-            })
+            var phone = phoneNumber
         }
+        axios.get(`${usersAPIBase}${text}`).then(res => {
+            phoneSessionObject[sessionNumber].action = 'phone'
+            res.send({
+                'text': "Phone number already used, please provide another"
+            });
+        }).catch(err => {
+            if (err.response.status == 404) {
+                // User does not exits
+                // Process registration
+                userCred[sessionNumber] = userCred[sessionNumber] || {}
 
-    })
+                userCred[sessionNumber].phone = phone
+
+                phoneSessionObject[sessionNumber].action = 'name'
+
+                res.send({
+                    text: "Please provide your full name"
+                });
+
+            } else {
+                result.status(500).json({
+                    'Error': 'Cannot get user details'
+                })
+            }
+        })
+    }
     // res.contentType('text/plain');
     // // console.log(req.body)
     // res.status(200)
     //     .send(message)
 })
 
-// app.use(function (req, res) {
-//     res.type("text/plain"),
-//         res.status(404);
-//     res.send('404 - Not Found');
-// });
+app.use(function (req, res) {
+    res.type("text/plain"),
+        res.status(404);
+    res.send('404 - Not Found');
+});
 
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     res.type('text/plain');
-//     res.status(500);
-//     res.send('500 - Server Error');
-// });
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.type('text/plain');
+    res.status(500);
+    res.send('500 - Server Error');
+});
 
 app.listen(app.get('port'), () => {
     console.log('Express started on http://localhost:' +

@@ -1,4 +1,3 @@
-
 require('pretty-error').start();
 
 require('custom-env').env()
@@ -46,16 +45,23 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', (req, res) => {
-    res.render("index", {"title":"Homepage"});
+    res.render("index", {
+        "title": "Homepage"
+    });
 });
 
 app.get('/simulator', (req, res) => {
-    res.render("simulator", {"title":"USSD Mobile Simulator"})
+    res.render("simulator", {
+        "title": "USSD Mobile Simulator"
+    })
 })
 
 app.post('/simulator/ussd', (req, res) => {
-    let session_number =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    res.render("ussd", Object.assign({"title":"USSD Mobile Simulator", "sessionNumber":session_number}, req.body))
+    let session_number = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    res.render("ussd", Object.assign({
+        "title": "USSD Mobile Simulator",
+        "sessionNumber": session_number
+    }, req.body))
 })
 
 app.get('/simulator/ussd', (req, res) => {
@@ -81,10 +87,12 @@ var lastData = "";
 
 var phoneSessionObject = {}
 var lastAction = ''
+var userCred = {}
 
 
 
 app.post('/ussd', (req, res) => {
+
 
     var sessionPhone = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false
 
@@ -93,7 +101,7 @@ app.post('/ussd', (req, res) => {
             'Error': 'Please provide a session number'
         })
     }
-    phoneSessionObject[sessionPhone] =  phoneSessionObject[sessionPhone] || {}
+    phoneSessionObject[sessionPhone] = phoneSessionObject[sessionPhone] || {}
     phoneSessionObject[sessionPhone].action = 'start'
 
 
@@ -107,132 +115,119 @@ app.post('/ussd', (req, res) => {
     let textValue = text.split('*').length
 
     let message = ''
+    lastAction = phoneSessionObject[sessionPhone].action = ''
+    // res.send(phoneSessionObject)
+    axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
 
-    if (text === '') {
-        var lastAction = phoneSessionObject[sessionPhone].action = ''
+        if (text === '') {
+            phoneSessionObject[sessionPhone].action = 'leagueSelect'
+            // Get Leaugues
+            message = `Please select your preferred league\n`
 
-        // res.send(phoneSessionObject)
-        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
-            if (result.status == 200) {
-                res.send('yes!');
-                phoneSessionObject[sessionPhone].action = 'leagueSelect'
-                // Get Leaugues
-                message = `Please select your preferred league\n`
-
-                // Get leauges
-                // liveScores.getCompetition()
-                liveScores.getCountries().then(data => {
-                    Promise.all(data.map(liveScores.getCompetition)).then(data => {
-                        // var new_result = ...data
-                        var leagueNames = []
-                        var resolved_values = data.map(val => {
-                            return val.data
-                        })
-
-                        var leagueNames = []
-                        var leaguePosition = []
-
-                        for (let v of resolved_values[0]) {
-                            leagueNames.push(v.league_name)
-                            leaguePosition.push(v)
-                        }
-
-                        // Data resolved
-                        var mesgStr = leagueNames.reduce((a, b, i) => {
-                            return a + `${i+1}. ${b}\n`
-                        }, '')
-                        // message
-                        // console.log(mesgStr)
-                        message += mesgStr
-
-                        res.status(200).json({
-                            text: message
-                        });
+            // Get leauges
+            // liveScores.getCompetition()
+            liveScores.getCountries().then(data => {
+                Promise.all(data.map(liveScores.getCompetition)).then(data => {
+                    // var new_result = ...data
+                    var leagueNames = []
+                    var resolved_values = data.map(val => {
+                        return val.data
                     })
 
-                }).catch(err => {
-                    console.log(err)
+                    var leagueNames = []
+                    var leaguePosition = []
+
+                    for (let v of resolved_values[0]) {
+                        leagueNames.push(v.league_name)
+                        leaguePosition.push(v)
+                    }
+
+                    // Data resolved
+                    var mesgStr = leagueNames.reduce((a, b, i) => {
+                        return a + `${i+1}. ${b}\n`
+                    }, '')
+                    // message
+                    // console.log(mesgStr)
+                    message += mesgStr
+
+                    res.status(200).json({
+                        text: message
+                    });
                 })
 
+            }).catch(err => {
+                console.log(err)
+            })
+
+        } else if (lastAction == 'phone') {
+            var text = text.trim()
+            if (text !== 0) {
+                var phone = text
+                if (!phone.match(/+?[0-9]{5,15}/igm)) {
+                    phoneSessionObject[sessionNumber].action = 'phone'
+                    res.send({
+                        'text': "Please provide a valid phone number"
+                    });
+                }
             } else {
-                res.send('no!')
-                message = `${welcomeMsg}
-                Please enter your phone number to continue. Enter 0 for the current number`
-                phoneSessionObject[sessionPhone].action = 'firstname'
-
-                res.status(200).json({
-                    'text': message
-                })
+                var phone = phoneNumber
             }
+            axios.get(`${usersAPIBase}${text}`).then(res => {
+                phoneSessionObject[sessionNumber].action = 'phone'
+                res.send({
+                    'text': "Phone number already used, please provide another"
+                });
+            }).catch(err => {
+                if (err.response.status == 404) {
+                    // User does not exits
+                    // Process registration
+                    userCred[sessionNumber] = userCred[sessionNumber] || {}
 
-        }).catch(err => {
-            console.log(err)
+                    userCred[sessionNumber].phone = phone
+
+                } else {
+                    result.status(500).json({
+                        'Error': 'Cannot get user details'
+                    })
+                }
+            })
+        }
+    }).catch(err => {
+        console.log(err)
+
+        if (err.response.status == 404) {
+            message = `${welcomeMsg}
+                Please enter your phone number to continue. Enter 0 for the current number`
+            phoneSessionObject[sessionPhone].action = 'phone'
+
+            res.status(200).json({
+                'text': message
+            })
+        } else {
             result.status(500).json({
                 'Error': 'Cannot get user details'
             })
-        })
-        welcomeMsg += `
-        
-        `
-        message = welcomeMsg
-    } else if (textValue === 1) {
-        // Check if current user is registered user
-        if (lastAction == 0) {
-            let phoneNumber = sessionPhone
-        } else {
-            let phoneNumber = lastAction.trim()
         }
 
-        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
-            if (result.status == 404) {
-                phoneSessionObject[sessionPhone].action = 'firstname'
-                message = 'CON Please enter your First name'
-            } else {
-                message = 'CON User with this number has already registered.'
-            }
-
-        }).catch(err => {
-            console.log(err)
-            result.status(500).json({
-                'Error': 'Cannot get user details'
-            })
-        })
-        message = "CON What do you want to eat?"
-        orderDetails.name = text;
-    } else if (textValue === 2) {
-        message = "CON Where do we deliver it?"
-        orderDetails.description = text.split('*')[1];
-    } else if (textValue === 3) {
-        message = "CON What's your telephone number?"
-        orderDetails.address = text.split('*')[2];
-    } else if (textValue === 4) {
-        message = `CON Would you like to place this order?
-        1. Yes
-        2. No`
-        lastData = text.split('*')[3];
-    } else {
-        message = `END Thanks for your order
-        Enjoy your meal in advance`
-        orderDetails.telephone = lastData
-    }
+    })
     // res.contentType('text/plain');
     // // console.log(req.body)
     // res.status(200)
     //     .send(message)
 })
 
-app.use(function (req, res) {
-    res.type("text/plain"),
-        res.status(404);
-    res.send('404 - Not Found');
-});
+// app.use(function (req, res) {
+//     res.type("text/plain"),
+//         res.status(404);
+//     res.send('404 - Not Found');
+// });
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.type('text/plain');
-    res.status(500);
-    res.send('500 - Server Error');
-});
+// app.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.type('text/plain');
+//     res.status(500);
+//     res.send('500 - Server Error');
+// });
 
 app.listen(app.get('port'), () => {
     console.log('Express started on http://localhost:' +

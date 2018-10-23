@@ -1,8 +1,8 @@
 const mongoose = require('mongoose'),
 DBAutoIncrement = require('mongoose-auto-increment'),
-MONGODBI_URI = process.env.MONGODBI_URI || 'mongodb://localhost:27017/swiftscore',
+MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/swiftscore',
 Schema = mongoose.Schema
-mongoose.connect(MONGODBI_URI, {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;

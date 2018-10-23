@@ -7,8 +7,8 @@ const express = require("express"),
     app = express(),
     PORT = process.env.PORT || 3000,
     appURL = `${$ENV.appURL}:${$ENV}` || 'http://localhost:3000',
-    usersAPIBase = `${appURL}${$ENV.usersAPIBase}` || `http://localhost:3000/users`
-africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
+    usersAPIBase = `${appURL}${$ENV.usersAPIBase}` || `http://localhost:3000/users`,
+    africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
     africasTalkingUsername = $ENV.africasTalkingUsername || "swiftscores",
     bodyParser = require('body-parser'),
     liveScores = require('./lib/scores'),
@@ -78,8 +78,6 @@ var lastData = "";
 
 var phoneSessionObject = {}
 var lastAction = ''
-
-
 
 app.post('/ussd', (req, res) => {
 

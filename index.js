@@ -124,6 +124,8 @@ app.post('/ussd', (req, res) => {
 
             // Get leauges
             // liveScores.getCompetition()
+            leagueNames = []
+            leaguePosition = []
             liveScores.getCountries().then(data => {
                 Promise.all(data.map(liveScores.getCompetition)).then(data => {
                     // var new_result = ...data
@@ -259,7 +261,10 @@ app.post('/ussd', (req, res) => {
 
         var posIndex = text - 1
 
+
         var postDetails = leaguePosition[posIndex]
+
+        console.log(postDetails)
 
         var current_date = new Date().toISOString().split('T')[0]
 
@@ -268,14 +273,31 @@ app.post('/ussd', (req, res) => {
         var from_ = current_date
         var to_ = current_date
 
-        
-        liveScores.getEvents(`league_id=${postDetails.league_id}&from=${from_}&to=${to_}`).then(result => {
-            console.log(result)
 
-            
+        liveScores.getEvents(`league_id=${postDetails.league_id}&from=${from_}&to=${to_}`).then(result => {
+            // console.log(result)
+
+            var resolved_res = result.data.slice(0, 5)
+
+            // console.log(resolved_res)
+
+            var resolved_matches = []
+
+            for (i in resolved_res) {
+                // console.log(resolved_res[i])
+                resolved_matches.push(
+                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}\n`)
+            }
+
+            message += resolved_matches.reduce((a, b, i) => {
+                return a + `${i+1}. ${b}`
+            }, '')
+
+
+
 
             res.send({
-                'text': current_date
+                'text': message
             })
         }).catch(error => {
             console.log(error)

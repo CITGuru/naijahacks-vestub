@@ -41,7 +41,7 @@ gulp.task('fonts', () => {
 
 gulp.task('font', () => {
   return gulp.src(['node_modules/mdbootstrap/font/roboto/*'])
-    .pipe(gulp.dest('src/font/'))
+    .pipe(gulp.dest('src/font/roboto'))
     .pipe(browserSync.stream());
 
 });
@@ -155,8 +155,8 @@ gulp.task('copy-fonts', () => {
 })
 
 gulp.task('copy-font', () => {
-  return gulp.src('src/font/*')
-    .pipe(gulp.dest('public/font'))
+  return gulp.src('src/font/roboto/*')
+    .pipe(gulp.dest('public/font/roboto'))
 })
 
 // Task to delete target assets folder for recreation

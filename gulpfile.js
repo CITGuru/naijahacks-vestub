@@ -62,15 +62,17 @@ gulp.task('js', () => {
 });
 
 // Default Gulp task to run including all necessary dependencies
-gulp.task('default', ['browser-sync', 'build'], () => {
+gulp.task('default', ['browser-sync'], () => {
   gulp.watch(['src/**/*.html', 'src/js/*.js',
     'src/css/*.css'
-  ], ['build'])
+  ], ['watch'])
   gulp.watch(['public/**/*.html', 'public/js/*.js',
     'public/css/*.css'
   ], reload)
 })
 
+
+gulp.task('watch', ['minify-html','pack-minify-js', 'pack-minify-css','copy-img', 'copy-css', 'copy-js',])
 
 gulp.task('browser-sync', () => {
   browserSync.init({
@@ -122,16 +124,6 @@ gulp.task('pack-minify-css', () => {
     }))
     .pipe(gulp.dest('public/css'))
 })
-
-// gulp.task('gulp-uncss', () => {
-//   return gulp.src('./css/bootstrap-custom.css')
-//     .pipe(uncss({
-//       html: ['index.html'],
-//       ignore: [/\modal/]
-//     }))
-//     .pipe(gulp.dest('public/css'))
-// })
-
 
 // // Task to copy assets
 gulp.task('copy-img', () => {

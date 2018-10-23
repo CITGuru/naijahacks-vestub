@@ -19,6 +19,9 @@
 	margin-left: 40px;
 }
 
+
+
+
 /*carousel design*/
 .carousel .carousel-control-next-icon{
 	background-color:transparent;
@@ -200,4 +203,99 @@ background-color: cadetblue;
 	text-align: center;
 	color: #FFF;
 	text-transform:capitalize;
+}
+
+
+.mobile-content {
+    height: 32.3rem;
+    width: 19rem;
+    position: absolute;
+    top: 4.65rem;
+    left: 50%;
+    transform: translateX(-49.9%);
+    overflow: hidden;
+    z-index: 8;
+    border: 1px solid #070707;
+}
+
+.mobile-content-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 1.9375rem;
+    top: 0;
+}
+
+.mobile-content-inner .indicator-strip .indicators span {
+    display: inline-block;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.indicator-strip .indicators {
+    margin-left: auto;
+    position: relative;
+}
+
+.indicator-strip .network {
+    color: #fff;
+    font-size: .9375rem;
+}
+
+.indicator-strip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 100%;
+    height: 1.9375rem;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    width: 100%;
+    cursor: default;
+    background-color: #4285f4;
+    padding: 0 .5rem;
+}
+
+
+.mobile img {
+    width: 344px;
+}
+
+.indicator-strip .indicators span svg {
+    fill: #fff;
+    height: 100%;
+}
+
+.mobile-header {
+    display: flex;
+    flex-flow: row wrap;
+    flex: 1 100%;
+}
+
+.mobile-header .main-strip {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    flex: 1 100%;
+    padding: 0 .5rem;
+    height: 2.7rem;
+    background: #4a8cf7;
+    cursor: default;
+}
+
+.mobile-header .title {
+    font-size: 1rem;
+    letter-spacing: .5px;
+    color: #fff;
+    margin-left: .5rem;
+}
+
+.mobile-header .info-strip {
+    padding: .3rem .5rem .1rem;
+    flex: 1 100%;
+    color: #fff;
+    font-size: .875rem;
+	cursor: default;
+	background: #59698d;
 }

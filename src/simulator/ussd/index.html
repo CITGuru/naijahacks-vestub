@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>USSD Simulator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/mdb.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="grey lighten-3">
+    <main class="container mt-5 mb-5 px-5" >
+        <div class="col">
+            <div class="col-md-6 col-md-12" style="margin: 0px auto;">
+                <div class="mobile mobile-viewport" style="text-align:center;" >
+                    <img src="/img/phone.png" style="margin: 0px auto;" />
+                </div>
+                <div class="mobile-content">
+                    <div class="mobile-content-inner">
+                        <div class="indicator-strip">
+                            <span class="network">Swifts Score</span>
+                            <div class="indicators">
+                                <span class="bars">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 22h20V2z" fill-opacity=".3"></path><path d="M17 7L2 22h15z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+                                </span>
+                                <span class="battery">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"></path></svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mobile-header">
+                            <div class="main-strip">
+                                <span class="title">USSD</span>
+                            </div>
+                            <div class="info-strip">
+                                <span>+234 8182315466</span>
+                            </div>
+                        </div>
+                        <div class="mobile-body">
+                            <div class="mobile-body-inner mx-3 my-5 py-4">
+                                <form method="GET" action="ussd">
+                                    <div class="form-md mb-3">
+                                        <label for="service_code" class="font-weight-bold">USSD Code</label>
+                                        <input type="text" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
+                                    </div>
+                                    <button class="btn btn-primary btn-block">Call</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

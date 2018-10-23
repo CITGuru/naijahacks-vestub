@@ -66,6 +66,10 @@ app.get('/simulator', (req, res) => {
     res.render("simulator")
 })
 
+app.get('/simulator/ussd', (req, res) => {
+    res.render("ussd")
+})
+
 app.post('/ussd', (req, res) => {
 
     var sessionPhone = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false

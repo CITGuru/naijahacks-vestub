@@ -299,3 +299,16 @@ background-color: cadetblue;
 	cursor: default;
 	background: #59698d;
 }
+
+@media (max-width: 500px) {
+	.simulator.container {
+		padding: 4px!important;
+		margin: 4px!important;
+	}
+	.simulator .col {
+		padding: 0px;
+	}
+	.simulator .simulator-inner {
+		padding: 0px;
+	}
+}

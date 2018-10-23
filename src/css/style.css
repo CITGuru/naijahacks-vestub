@@ -1,7 +1,3 @@
-@font-face{
-	font-family:'Helvetica-Black.otf';
-	src:url('./fonts/Helvetica-Black.otf');
-}
 *{
 	padding:0px;
 	margin:0px;
@@ -18,7 +14,6 @@ background-color: cadetblue;
 	color: #FFF;
 	text-transform:capitalize;
 }
-
 
 .mobile-content {
     height: 32.3rem;

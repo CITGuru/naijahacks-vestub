@@ -88,6 +88,8 @@ var lastData = "";
 var phoneSessionObject = {}
 var lastAction = ''
 var userCred = {}
+var leagueNames = []
+var leaguePosition = []
 
 app.post('/ussd', (req, res) => {
 
@@ -114,24 +116,24 @@ app.post('/ussd', (req, res) => {
     var message = ''
     // res.send(phoneSessionObject)
 
-    if (text === '') {
-        axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
+    if (text === '' || phoneSessionObject[sessionNumber].action == 'start') {
+        axios.get(`${usersAPIBase}/${phoneNumber}`).then(result => {
             phoneSessionObject[sessionNumber].action = 'leagueSelect'
             // Get Leaugues
             message = `Please select your preferred league\n`
 
             // Get leauges
             // liveScores.getCompetition()
+            leagueNames = []
+            leaguePosition = []
             liveScores.getCountries().then(data => {
                 Promise.all(data.map(liveScores.getCompetition)).then(data => {
                     // var new_result = ...data
-                    var leagueNames = []
                     var resolved_values = data.map(val => {
                         return val.data
                     })
 
-                    var leagueNames = []
-                    var leaguePosition = []
+
 
                     for (let v of resolved_values[0]) {
                         leagueNames.push(v.league_name)
@@ -176,18 +178,16 @@ app.post('/ussd', (req, res) => {
             }
 
         })
-    } else {
-        console.log(phoneSessionObject[sessionNumber])
     }
-    
-     if (phoneSessionObject[sessionNumber].action == 'phone') {
+
+    if (phoneSessionObject[sessionNumber].action == 'phone') {
         var text = text.trim()
         // console.log('yes')
         if (text != 0) {
             var phone = text
             if (!phone.match(/\+?[0-9]{5,15}/igm)) {
                 phoneSessionObject[sessionNumber].action = 'phone'
-                res.send({
+                res.status(401).send({
                     'text': "Please provide a valid phone number"
                 });
             }
@@ -219,6 +219,91 @@ app.post('/ussd', (req, res) => {
                 })
             }
         })
+    }
+
+    if (phoneSessionObject[sessionNumber].action == 'name') {
+        var text = text.trim()
+
+        if (!text) {
+            phoneSessionObject[sessionNumber].action = 'name'
+
+            res.status(401).send({
+                'text': "Please enter your valid full name"
+            })
+        } else {
+
+            userCred[sessionNumber] = userCred[sessionNumber] || {}
+            userCred[sessionNumber].name = text
+
+
+            axios.post(`${usersAPIBase}`, userCred[sessionNumber]).then(success => {
+                console.log(success.data)
+                userCred[sessionNumber].action = 'regDone'
+                phoneSessionObject[sessionNumber].action = 'start'
+                res.send({
+                    text: 'Congratulations! You have succesfully registered\n Press 1 to continue'
+                })
+            }).catch(error => {
+                console.log(error)
+                phoneSessionObject[sessionNumber].action = 'name'
+                res.status(500).send({
+                    text: 'Error occured, you are not registered'
+                });
+            })
+        }
+
+
+
+    }
+
+    if (phoneSessionObject[sessionNumber].action == 'leagueSelect') {
+        var text = parseInt(text)
+
+        var posIndex = text - 1
+
+
+        var postDetails = leaguePosition[posIndex]
+
+        console.log(postDetails)
+
+        var current_date = new Date().toISOString().split('T')[0]
+
+        var message = `Match details for ${postDetails.league_name}`
+
+        var from_ = current_date
+        var to_ = current_date
+
+
+        liveScores.getEvents(`league_id=${postDetails.league_id}&from=${from_}&to=${to_}`).then(result => {
+            // console.log(result)
+
+            var resolved_res = result.data.slice(0, 5)
+
+            // console.log(resolved_res)
+
+            var resolved_matches = []
+
+            for (i in resolved_res) {
+                // console.log(resolved_res[i])
+                resolved_matches.push(
+                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}\n`)
+            }
+
+            message += resolved_matches.reduce((a, b, i) => {
+                return a + `${i+1}. ${b}`
+            }, '')
+
+
+
+
+            res.send({
+                'text': message
+            })
+        }).catch(error => {
+            console.log(error)
+        })
+
+        phoneSessionObject[sessionNumber].action = ''
     }
     // res.contentType('text/plain');
     // // console.log(req.body)

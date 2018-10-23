@@ -1,3 +1,6 @@
+
+require('pretty-error').start();
+
 require('custom-env').env()
 
 const express = require("express"),
@@ -6,7 +9,7 @@ const express = require("express"),
     AfricasTalking = require('africastalking'),
     app = express(),
     PORT = process.env.PORT || 3000,
-    appURL = `${$ENV.appURL}:${$ENV}` || 'http://localhost:3000',
+    appURL = `${$ENV.appURL}:${$ENV.PORT}` || 'http://localhost:3000',
     usersAPIBase = `${appURL}${$ENV.usersAPIBase}` || `http://localhost:3000/users`
 africasTalkingAPIKey = $ENV.africasTalkingAPIKey,
     africasTalkingUsername = $ENV.africasTalkingUsername || "swiftscores",
@@ -90,6 +93,7 @@ app.post('/ussd', (req, res) => {
             'Error': 'Please provide a session number'
         })
     }
+    phoneSessionObject[sessionPhone] =  phoneSessionObject[sessionPhone] || {}
     phoneSessionObject[sessionPhone].action = 'start'
 
 
@@ -105,11 +109,12 @@ app.post('/ussd', (req, res) => {
     let message = ''
 
     if (text === '') {
-        // Check if current number is registered
         var lastAction = phoneSessionObject[sessionPhone].action = ''
 
+        // res.send(phoneSessionObject)
         axios.get(`${usersAPIBase}${phoneNumber}`).then(result => {
             if (result.status == 200) {
+                res.send('yes!');
                 phoneSessionObject[sessionPhone].action = 'leagueSelect'
                 // Get Leaugues
                 message = `Please select your preferred league\n`
@@ -150,9 +155,14 @@ app.post('/ussd', (req, res) => {
                 })
 
             } else {
+                res.send('no!')
                 message = `${welcomeMsg}
                 Please enter your phone number to continue. Enter 0 for the current number`
                 phoneSessionObject[sessionPhone].action = 'firstname'
+
+                res.status(200).json({
+                    'text': message
+                })
             }
 
         }).catch(err => {
@@ -205,10 +215,10 @@ app.post('/ussd', (req, res) => {
         Enjoy your meal in advance`
         orderDetails.telephone = lastData
     }
-    res.contentType('text/plain');
-    // console.log(req.body)
-    res.status(200)
-        .send(message)
+    // res.contentType('text/plain');
+    // // console.log(req.body)
+    // res.status(200)
+    //     .send(message)
 })
 
 app.use(function (req, res) {
@@ -231,3 +241,7 @@ app.listen(app.get('port'), () => {
 
 
 // liveScores.getLeagues()
+
+// axios.get(`${usersAPIBase}08099479437`).then(result => {
+//     console.log(result)
+// })

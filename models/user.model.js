@@ -8,7 +8,7 @@ mongoose.connect(MONGODBI_URI, {
 mongoose.Promise = global.Promise;
 const connection = mongoose.connection;
 
-// connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 DBAutoIncrement.initialize(connection)
 

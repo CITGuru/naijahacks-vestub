@@ -314,18 +314,18 @@ app.post('/ussd', (req, res) => {
     //     .send(message)
 })
 
-app.use(function (req, res) {
-    res.type("text/plain"),
-        res.status(404);
-    res.send('404 - Not Found');
-});
+// app.use(function (req, res) {
+//     res.type("text/plain"),
+//         res.status(404);
+//     res.send('404 - Not Found');
+// });
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.type('text/plain');
-    res.status(500);
-    res.send('500 - Server Error');
-});
+// app.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.type('text/plain');
+//     res.status(500);
+//     res.send('500 - Server Error');
+// });
 
 app.listen(app.get('port'), () => {
     console.log('Express started on http://localhost:' +

@@ -125,6 +125,7 @@
     <% include ./script %> 
     
     <script>
+        var started = false;
         $("#ussd_call").on("submit", (e)=>{
             e.preventDefault();
             let sessionNumber = $('#sessionNumber').val().trim(),
@@ -159,6 +160,7 @@
             let sessionNumber = $('#sessionNumber').val().trim(),
                 phoneNumber = $('#phoneNumber').val().trim(),
                 text = $('#text').val().trim();
+            console.log(text)
             $("#loader").modal("show");
             $("#ussdModal").modal("hide");
             let backdrop = $(".modal-backdrop").detach();

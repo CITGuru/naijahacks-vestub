@@ -180,6 +180,9 @@
                     let backdrop = $(".modal-backdrop").detach();
                     $(".mobile-content-inner").append(backdrop);
                     $("#ussdModal .display").html(res.text);
+                    if (res.phoneNumber){
+                        $('#sessionNumber').val(res.phoneNumber)
+                    }
                 },
                 err: function(err) {
                     $("#info").html(err.text)

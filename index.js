@@ -233,7 +233,7 @@ app.post('/ussd', (req, res) => {
         if (!text) {
             phoneSessionObject[sessionNumber].action = 'name'
 
-            res.status(401).send({
+            res.status(200).send({
                 'text': "Please enter your valid full name",
                 'phoneNumber': userCred[sessionNumber].phone
             })

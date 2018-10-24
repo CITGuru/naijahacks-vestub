@@ -186,7 +186,7 @@ app.post('/ussd', (req, res) => {
     if (phoneSessionObject[sessionNumber].action == 'phone') {
         var text = text.trim()
         // console.log('yes')
-        if (text != 0) {
+        if (text != '0') {
             if (!phone.match(/\+?[0-9]{5,15}/igm)) {
                 var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
@@ -198,7 +198,7 @@ app.post('/ussd', (req, res) => {
         } else {
             var phone = phoneNumber
         }
-        axios.get(`${usersAPIBase}${text}`).then(res => {
+        axios.get(`${usersAPIBase}/${text}`).then(res => {
             phoneSessionObject[sessionNumber].action = 'phone'
             res.send({
                 'text': "Phone number already used, please provide another",

@@ -76,7 +76,7 @@ app.use('/users', users);
 
 let webURL = 'https://naijahacks-vestub.herokuapp.com/docs'
 
-let welcomeMsg = `CON Hello and Welcome to SwiftScores.`
+let welcomeMsg = `Hello and Welcome to SwiftScores.`
 
 let orderDetails = {
     name: "",
@@ -165,7 +165,7 @@ app.post('/ussd', (req, res) => {
 
             if (err.response.status == 404) {
                 message = `${welcomeMsg}
-                    Please enter your phone number to continue. Enter 0 for the current number`
+                    Please enter your phone number to continue. \n Enter 0 for the current number`
                 phoneSessionObject[sessionNumber].action = 'phone'
 
                 console.log(phoneSessionObject[sessionNumber])

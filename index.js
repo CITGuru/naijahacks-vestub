@@ -123,7 +123,7 @@ app.post('/ussd', (req, res) => {
         axios.get(`${usersAPIBase}/${phoneNumber}`).then(result => {
             phoneSessionObject[sessionNumber].action = 'leagueSelect'
             // Get Leaugues
-            message = `Please select your preferred league<br />`
+            message = `Please select your preferred league\n`
 
             // Get leauges
             // liveScores.getCompetition()
@@ -145,7 +145,7 @@ app.post('/ussd', (req, res) => {
 
                     // Data resolved
                     var mesgStr = leagueNames.reduce((a, b, i) => {
-                        return a + `${i+1}. ${b}<br />`
+                        return a + `${i+1}. ${b}\n`
                     }, '')
                     // message
                     // console.log(mesgStr)
@@ -157,15 +157,15 @@ app.post('/ussd', (req, res) => {
                 })
 
             }).catch(err => {
-                console.log(err)
+                console.log(err.response)
             })
 
         }).catch(err => {
-            console.log(err)
+            console.log(err.response)
 
             if (err.response.status == 404) {
                 message = `${welcomeMsg}
-                    Please enter your phone number to continue. <br /> Enter 0 for the current number`
+                    Please enter your phone number to continue. \n Enter 0 for the current number`
                 phoneSessionObject[sessionNumber].action = 'phone'
 
                 console.log(phoneSessionObject[sessionNumber])
@@ -187,11 +187,12 @@ app.post('/ussd', (req, res) => {
         var text = text.trim()
         // console.log('yes')
         if (text != 0) {
-            var phone = text
             if (!phone.match(/\+?[0-9]{5,15}/igm)) {
+                var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
                 res.status(401).send({
-                    'text': "Please provide a valid phone number"
+                    'text': "Please provide a valid phone number",
+                    'phoneNumber': phone
                 });
             }
         } else {
@@ -200,7 +201,8 @@ app.post('/ussd', (req, res) => {
         axios.get(`${usersAPIBase}${text}`).then(res => {
             phoneSessionObject[sessionNumber].action = 'phone'
             res.send({
-                'text': "Phone number already used, please provide another"
+                'text': "Phone number already used, please provide another",
+                phoneNumber: phone
             });
         }).catch(err => {
             if (err.response.status == 404) {
@@ -213,7 +215,8 @@ app.post('/ussd', (req, res) => {
                 phoneSessionObject[sessionNumber].action = 'name'
 
                 res.send({
-                    text: "Please provide your full name"
+                    text: "Please provide your full name",
+                    phoneNumber: userCred[sessionNumber].phone
                 });
 
             } else {
@@ -231,7 +234,8 @@ app.post('/ussd', (req, res) => {
             phoneSessionObject[sessionNumber].action = 'name'
 
             res.status(401).send({
-                'text': "Please enter your valid full name"
+                'text': "Please enter your valid full name",
+                'phoneNumber': userCred[sessionNumber].phone
             })
         } else {
 
@@ -244,10 +248,10 @@ app.post('/ussd', (req, res) => {
                 userCred[sessionNumber].action = 'regDone'
                 phoneSessionObject[sessionNumber].action = 'start'
                 res.send({
-                    text: 'Congratulations! You have succesfully registered<br /> Press 1 to continue'
+                    text: 'Congratulations! You have succesfully registered\n Press 1 to continue'
                 })
             }).catch(error => {
-                console.log(error)
+                console.log(error.response)
                 phoneSessionObject[sessionNumber].action = 'name'
                 res.status(500).send({
                     text: 'Error occured, you are not registered'
@@ -271,7 +275,7 @@ app.post('/ussd', (req, res) => {
 
         var current_date = new Date().toISOString().split('T')[0]
 
-        var message = `Match details for ${postDetails.league_name}<br />`
+        var message = `Match details for ${postDetails.league_name}\n`
 
         var from_ = current_date
         var to_ = current_date
@@ -289,7 +293,7 @@ app.post('/ussd', (req, res) => {
             for (i in resolved_res) {
                 // console.log(resolved_res[i])
                 resolved_matches.push(
-                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}<br />`)
+                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}\n`)
             }
 
             message += resolved_matches.reduce((a, b, i) => {
@@ -306,7 +310,7 @@ app.post('/ussd', (req, res) => {
             console.log(error)
         })
 
-        phoneSessionObject[sessionNumber].action = ''
+        // phoneSessionObject[sessionNumber].action = ''
     }
     // res.contentType('text/plain');
     // // console.log(req.body)

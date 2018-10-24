@@ -190,7 +190,7 @@ app.post('/ussd', (req, res) => {
             if (!text.match(/\+?[0-9]{5,15}/igm)) {
                 var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
-                res.status(401).send({
+                res.status(200).send({
                     'text': "Please provide a valid phone number",
                     'phoneNumber': phone
                 });

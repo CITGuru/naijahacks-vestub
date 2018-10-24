@@ -187,7 +187,7 @@ app.post('/ussd', (req, res) => {
         var text = text.trim()
         // console.log('yes')
         if (text != '0') {
-            if (!phone.match(/\+?[0-9]{5,15}/igm)) {
+            if (!text.match(/\+?[0-9]{5,15}/igm)) {
                 var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
                 res.status(401).send({
@@ -271,11 +271,11 @@ app.post('/ussd', (req, res) => {
         if(posIndex==1) {
             res.send({
                 phoneNumber: phoneNumber,
-                text: `Match Details for Ligue 2<br />
-                1. Auxerre  ? ? Paris FC<br />
-                2. Red Star ? ? US Orléans<br />
-                3. Ajaccio  ? ? Béziers<br />
-                4. Sochaux  ? ? Niort<br />
+                text: `Match Details for Ligue 2
+                1. Auxerre  ? ? Paris FC
+                2. Red Star ? ? US Orléans
+                3. Ajaccio  ? ? Béziers
+                4. Sochaux  ? ? Niort
                 
                 #. Next`
             })
@@ -317,6 +317,9 @@ app.post('/ussd', (req, res) => {
 
             message+=`
             #. Next`
+
+
+
 
             res.send({
                 'text': message

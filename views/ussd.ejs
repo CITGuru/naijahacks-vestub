@@ -97,19 +97,21 @@
                             </div>
                         </div>
                         <div class="modal fade" id="ussdModal" tabindex="-1" role="dialog" aria-labelledby="ussdModal" aria-hidden="true">
-                            <div class="modal-dialog col-md-5" style="margin-top:190px;" role="document">
+                            <div class="modal-dialog col-md-5" style="margin-top:150px;" role="document">
                                 <div class="modal-content">
                                     <div class="modal-">
                                         <div class="display px-3 py-3"></div>
-                                        <div class="form-md">
-                                            <input type="text" class="form-control" name="text" id="text">
-                                        </div>
-                                        <div class="md-form input-group" style="margin:0px;">
-                                            <div class="input-group-prepend" style="width: 100%;">
-                                                <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
-                                                <button class="btn btn-ussd waves-effect m-0" type="button">Cancel</button>
+                                        <form id="ussd_respond" method="POST">
+                                            <div class="form-md">
+                                                <input type="text" class="form-control" name="text" id="text">
                                             </div>
-                                        </div>
+                                            <div class="md-form input-group" style="margin:0px;">
+                                                <div class="input-group-prepend" style="width: 100%;">
+                                                    <button class="btn btn-ussd waves-effect m-0" type="submit">Send</button>
+                                                    <button class="btn btn-ussd waves-effect m-0 cancel" type="button">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -124,10 +126,11 @@
     
     <script>
         $("#ussd_call").on("submit", (e)=>{
-            let Url = "/ussd"
             e.preventDefault();
-            let data = $(e.target).serialize();
+            let sessionNumber = $('#sessionNumber').val().trim(),
+                phoneNumber = $('#phoneNumber').val().trim()
             $("#loader").modal("show");
+            $("#ussdModal").modal("hide");
             let backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
             $.ajax({
@@ -135,22 +138,52 @@
                 'method': "POST",
                 data: {
                     text: "",
-                    sessionNumber: $('#sessionNumber').val().trim(),
-                    phoneNumber: $('#phoneNumber').val().trim()
+                    sessionNumber: sessionNumber,
+                    phoneNumber: phoneNumber
                 },
                 success: function(res) {
                     $("#loader").modal("hide");
                     $("#ussdModal").modal("show")
                     let backdrop = $(".modal-backdrop").detach();
                     $(".mobile-content-inner").append(backdrop);
-                    $("#ussdModal .display").html(res.text.replace('\n', '<br />'));
+                    $("#ussdModal .display").html(res.text);
                 },
                 err: function(err) {
-                $("#info").html(err.text)
-                $("#loader").modal("hide");
+                    $("#info").html(err.text)
+                    $("#loader").modal("hide");
                 }
             });
-        
+        });
+        $("#ussd_respond").on("submit", (e)=>{
+            e.preventDefault();
+            let sessionNumber = $('#sessionNumber').val().trim(),
+                phoneNumber = $('#phoneNumber').val().trim(),
+                text = $('#text').val().trim();
+            $("#loader").modal("show");
+            $("#ussdModal").modal("hide");
+            let backdrop = $(".modal-backdrop").detach();
+            $(".mobile-content-inner").append(backdrop);
+            $.ajax({
+                url: '<%= ussdUrl %>',
+                'method': "POST",
+                data: {
+                    text: text,
+                    sessionNumber: sessionNumber,
+                    phoneNumber: phoneNumber
+                },
+                success: function(res) {
+                    $('#text').val();
+                    $("#loader").modal("hide");
+                    $("#ussdModal").modal("show");
+                    let backdrop = $(".modal-backdrop").detach();
+                    $(".mobile-content-inner").append(backdrop);
+                    $("#ussdModal .display").html(res.text);
+                },
+                err: function(err) {
+                    $("#info").html(err.text)
+                    $("#loader").modal("hide");
+                }
+            });
         });
     </script>
     </body>

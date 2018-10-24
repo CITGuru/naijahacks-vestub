@@ -187,7 +187,7 @@ app.post('/ussd', (req, res) => {
         var text = text.trim()
         // console.log('yes')
         if (text != '0') {
-            if (!text.match(/\+?[0-9]{5,15}/igm)) {
+            if (!phone.match(/\+?[0-9]{5,15}/igm)) {
                 var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
                 res.status(401).send({
@@ -280,8 +280,6 @@ app.post('/ussd', (req, res) => {
                 #. Next`
             })
         } else {
-
-
         var postDetails = leaguePosition[posIndex]
 
         console.log(postDetails)

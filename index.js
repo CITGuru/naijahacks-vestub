@@ -279,7 +279,7 @@ app.post('/ussd', (req, res) => {
                 
                 #. Next`
             })
-        }
+        } else {
 
 
         var postDetails = leaguePosition[posIndex]
@@ -327,7 +327,7 @@ app.post('/ussd', (req, res) => {
         }).catch(error => {
             console.log(error)
         })
-
+    }
         // phoneSessionObject[sessionNumber].action = ''
     }
     // res.contentType('text/plain');

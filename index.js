@@ -268,6 +268,19 @@ app.post('/ussd', (req, res) => {
 
         var posIndex = text - 1
 
+        if(posIndex==1) {
+            res.send({
+                phoneNumber: phoneNumber,
+                text: `Match Details for Ligue 2
+                1. Auxerre  ? ? Paris FC
+                2. Red Star ? ? US Orléans
+                3. Ajaccio  ? ? Béziers
+                4. Sochaux  ? ? Niort
+                
+                #. Next`
+            })
+        }
+
 
         var postDetails = leaguePosition[posIndex]
 
@@ -284,6 +297,8 @@ app.post('/ussd', (req, res) => {
         liveScores.getEvents(`league_id=${postDetails.league_id}&from=${from_}&to=${to_}`).then(result => {
             // console.log(result)
 
+            console.log(result.data)
+
             var resolved_res = result.data.slice(0, 5)
 
             // console.log(resolved_res)
@@ -299,6 +314,9 @@ app.post('/ussd', (req, res) => {
             message += resolved_matches.reduce((a, b, i) => {
                 return a + `${i+1}. ${b}`
             }, '')
+
+            message+=`
+            #. Next`
 
 
 

@@ -271,11 +271,11 @@ app.post('/ussd', (req, res) => {
         if(posIndex==1) {
             res.send({
                 phoneNumber: phoneNumber,
-                text: `Match Details for Ligue 2
-                1. Auxerre  ? ? Paris FC
-                2. Red Star ? ? US Orléans
-                3. Ajaccio  ? ? Béziers
-                4. Sochaux  ? ? Niort
+                text: `Match Details for Ligue 2<br />
+                1. Auxerre  ? ? Paris FC<br />
+                2. Red Star ? ? US Orléans<br />
+                3. Ajaccio  ? ? Béziers<br />
+                4. Sochaux  ? ? Niort<br />
                 
                 #. Next`
             })
@@ -317,9 +317,6 @@ app.post('/ussd', (req, res) => {
 
             message+=`
             #. Next`
-
-
-
 
             res.send({
                 'text': message

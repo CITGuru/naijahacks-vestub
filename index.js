@@ -123,7 +123,7 @@ app.post('/ussd', (req, res) => {
         axios.get(`${usersAPIBase}/${phoneNumber}`).then(result => {
             phoneSessionObject[sessionNumber].action = 'leagueSelect'
             // Get Leaugues
-            message = `Please select your preferred league\n`
+            message = `Please select your preferred league<br>`
 
             // Get leauges
             // liveScores.getCompetition()
@@ -145,7 +145,7 @@ app.post('/ussd', (req, res) => {
 
                     // Data resolved
                     var mesgStr = leagueNames.reduce((a, b, i) => {
-                        return a + `${i+1}. ${b}\n`
+                        return a + `${i+1}. ${b}<br>`
                     }, '')
                     // message
                     // console.log(mesgStr)
@@ -165,7 +165,7 @@ app.post('/ussd', (req, res) => {
 
             if (err.response.status == 404) {
                 message = `${welcomeMsg}
-                    Please enter your phone number to continue. \n Enter 0 for the current number`
+                    Please enter your phone number to continue. <br> Enter 0 for the current number`
                 phoneSessionObject[sessionNumber].action = 'phone'
 
                 console.log(phoneSessionObject[sessionNumber])
@@ -248,7 +248,7 @@ app.post('/ussd', (req, res) => {
                 userCred[sessionNumber].action = 'regDone'
                 phoneSessionObject[sessionNumber].action = 'start'
                 res.send({
-                    text: 'Congratulations! You have succesfully registered\n Press 1 to continue'
+                    text: 'Congratulations! You have succesfully registered<br> Press 1 to continue'
                 })
             }).catch(error => {
                 console.log(error.response)
@@ -275,7 +275,7 @@ app.post('/ussd', (req, res) => {
 
         var current_date = new Date().toISOString().split('T')[0]
 
-        var message = `Match details for ${postDetails.league_name}\n`
+        var message = `Match details for ${postDetails.league_name}<br>`
 
         var from_ = current_date
         var to_ = current_date
@@ -293,7 +293,7 @@ app.post('/ussd', (req, res) => {
             for (i in resolved_res) {
                 // console.log(resolved_res[i])
                 resolved_matches.push(
-                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}\n`)
+                    `${resolved_res[i].match_hometeam_name} ${resolved_res[i].match_hometeam_score} : ${resolved_res[i].match_hometeam_score} ${resolved_res[i].match_hometeam_name}<br>`)
             }
 
             message += resolved_matches.reduce((a, b, i) => {

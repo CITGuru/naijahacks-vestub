@@ -36,17 +36,19 @@
                                     <input type="hidden" id="sessionNumber" name="sessionNumber" value="<%= sessionNumber %>">
                                     <div class="form-md mb-3">
                                         <label for="service_code" class="font-weight-bold">USSD Code</label>
-                                        <input type="text" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
+                                        <input type="text" autocomplete="false" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
                                     </div>
                                     <button class="btn btn-primary btn-block">Call</button>
                                 </form>
                             </div>
                         </div>
-                        <div class="modal fade" id="loader" tabindex="-1" role="dialog" aria-labelledby="loader" aria-hidden="true">
-                            <div class="modal-dialog col-md-5" style="margin-top:190px;" role="document">
+                       
+                        <div class="modal fade" id="ussdModal" tabindex="-1" role="dialog" aria-labelledby="ussdModal" aria-hidden="true">
+                            <div class="modal-dialog col-md-5" style="margin-top:140px;font-size: 13px;font-weight: 400;" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-body text-center">
-                                        <div class="preloader-wrapper big active">
+                                    <div class="modal-">
+                                        <div id="loader" class="text-center p-3">
+                                            <div class="preloader-wrapper big active">
                                             <div class="spinner-layer spinner-blue">
                                                 <div class="circle-clipper left">
                                                 <div class="circle"></div>
@@ -92,26 +94,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="ussdModal" tabindex="-1" role="dialog" aria-labelledby="ussdModal" aria-hidden="true">
-                            <div class="modal-dialog col-md-5" style="margin-top:150px;" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-">
-                                        <div class="display px-3 py-3"></div>
-                                        <form id="ussd_respond" method="POST">
+                                        </div>
+                                        <div id="ussd-port">
+                                            <div class="display px-3 py-3"></div>
+                                            <form id="ussd_respond" autocomplete="false" method="POST">
                                             <div class="form-md">
-                                                <input type="text" class="form-control" name="text" id="text">
+                                                <input autocomplete="false" required type="text" class="form-control" name="text" id="text">
                                             </div>
                                             <div class="md-form input-group" style="margin:0px;">
                                                 <div class="input-group-prepend" style="width: 100%;">
                                                     <button class="btn btn-ussd waves-effect m-0" type="submit">Send</button>
-                                                    <button class="btn btn-ussd waves-effect m-0 cancel" type="button">Cancel</button>
+                                                    <button class="btn btn-ussd waves-effect m-0 cancel" data-dismiss="modal" type="button">Cancel</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                            </form>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -128,11 +126,13 @@
         var started = false;
         $("#ussd_call").on("submit", (e)=>{
             e.preventDefault();
-            let sessionNumber = $('#sessionNumber').val().trim(),
+            var sessionNumber = $('#sessionNumber').val().trim(),
                 phoneNumber = $('#phoneNumber').val().trim()
-            $("#loader").modal("show");
-            $("#ussdModal").modal("hide");
-            let backdrop = $(".modal-backdrop").detach();
+            
+            $("#ussdModal").modal("show");
+            $("#loader").show();
+            $("#ussd-port").hide();
+            var backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
             $.ajax({
                 url: '<%= ussdUrl %>',
@@ -143,27 +143,33 @@
                     phoneNumber: phoneNumber
                 },
                 success: function(res) {
-                    $("#loader").modal("hide");
-                    $("#ussdModal").modal("show")
-                    let backdrop = $(".modal-backdrop").detach();
-                    $(".mobile-content-inner").append(backdrop);
+                    $('#text').val("");
+                    setTimeout(function(){
+                        $("#loader").hide();
+                    $("#ussd-port").show();
+                    }, 1000);
+                    
                     $("#ussdModal .display").html(res.text);
                 },
                 err: function(err) {
-                    $("#info").html(err.text)
-                    $("#loader").modal("hide");
+                    $('#text').val("");
+                    $("#ussdModal .display").html(err.text);
+                    setTimeout(function(){
+                        $("#loader").hide();
+                    $("#ussd-port").show();
+                    }, 1000);
                 }
             });
         });
         $("#ussd_respond").on("submit", (e)=>{
             e.preventDefault();
-            let sessionNumber = $('#sessionNumber').val().trim(),
+            var sessionNumber = $('#sessionNumber').val().trim(),
                 phoneNumber = $('#phoneNumber').val().trim(),
                 text = $('#text').val().trim();
-            console.log(text)
-            $("#loader").modal("show");
-            $("#ussdModal").modal("hide");
-            let backdrop = $(".modal-backdrop").detach();
+            $("#ussdModal").modal("show");
+            $("#loader").show();
+            $("#ussd-port").hide();
+            var backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
             $.ajax({
                 url: '<%= ussdUrl %>',
@@ -175,18 +181,23 @@
                 },
                 success: function(res) {
                     $('#text').val("");
-                    $("#loader").modal("hide");
-                    $("#ussdModal").modal("show");
-                    let backdrop = $(".modal-backdrop").detach();
-                    $(".mobile-content-inner").append(backdrop);
                     $("#ussdModal .display").html(res.text);
+                    setTimeout(function(){
+                        $("#loader").hide();
+                    $("#ussd-port").show();
+                    }, 1000);
                     if (res.phoneNumber){
-                        $('#sessionNumber').val(res.phoneNumber)
+                        $('#phoneNumber').val(res.phoneNumber)
                     }
                 },
                 err: function(err) {
-                    $("#info").html(err.text)
-                    $("#loader").modal("hide");
+                    $('#text').val("");
+                    $("#ussdModal .display").html(err.text)
+                    setTimeout(function(){
+                        $("#loader").hide();
+                    $("#ussd-port").show();
+                    }, 1000);
+
                 }
             });
         });

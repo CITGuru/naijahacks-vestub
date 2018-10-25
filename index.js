@@ -59,6 +59,7 @@ app.get('/simulator', (req, res) => {
 
 app.post('/simulator/ussd', (req, res) => {
     let session_number = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    console.log(req.body)
     res.render("ussd", Object.assign({
         "title": "USSD Mobile Simulator",
         "sessionNumber": session_number,
@@ -100,7 +101,7 @@ app.post('/ussd', (req, res) => {
     var sessionNumber = typeof (req.body.sessionNumber) == 'string' ? req.body.sessionNumber : false
 
     if (!sessionNumber) {
-        res.status(400).json({
+        res.status(200).json({
             'Error': 'Please provide a session number'
         })
     }
@@ -175,7 +176,7 @@ app.post('/ussd', (req, res) => {
                 })
             } else {
                 phoneSessionObject[sessionNumber].action = 'phone'
-                result.status(500).json({
+                result.status(200).json({
                     'Error': 'Cannot get user details'
                 })
             }
@@ -187,10 +188,10 @@ app.post('/ussd', (req, res) => {
         var text = text.trim()
         // console.log('yes')
         if (text != '0') {
-            if (!phone.match(/\+?[0-9]{5,15}/igm)) {
+            if (!text.match(/\+?[0-9]{5,15}/igm)) {
                 var phone = text
                 phoneSessionObject[sessionNumber].action = 'phone'
-                res.status(401).send({
+                res.status(200).send({
                     'text': "Please provide a valid phone number",
                     'phoneNumber': phone
                 });
@@ -220,7 +221,7 @@ app.post('/ussd', (req, res) => {
                 });
 
             } else {
-                result.status(500).json({
+                result.status(200).json({
                     'Error': 'Cannot get user details'
                 })
             }
@@ -233,7 +234,7 @@ app.post('/ussd', (req, res) => {
         if (!text) {
             phoneSessionObject[sessionNumber].action = 'name'
 
-            res.status(401).send({
+            res.status(200).send({
                 'text': "Please enter your valid full name",
                 'phoneNumber': userCred[sessionNumber].phone
             })
@@ -253,7 +254,7 @@ app.post('/ussd', (req, res) => {
             }).catch(error => {
                 console.log(error.response)
                 phoneSessionObject[sessionNumber].action = 'name'
-                res.status(500).send({
+                res.status(200).send({
                     text: 'Error occured, you are not registered'
                 });
             })
@@ -266,18 +267,13 @@ app.post('/ussd', (req, res) => {
     if (phoneSessionObject[sessionNumber].action == 'leagueSelect') {
         var text = parseInt(text)
 
+
         var posIndex = text - 1
 
         if(posIndex==1) {
-            res.send({
-                phoneNumber: phoneNumber,
-                text: `Match Details for Ligue 2<br />
-                1. Auxerre  ? ? Paris FC<br />
-                2. Red Star ? ? US Orléans<br />
-                3. Ajaccio  ? ? Béziers<br />
-                4. Sochaux  ? ? Niort<br />
-                
-                #. Next`
+            res.status(200).send({
+                "phoneNumber": phoneNumber,
+                "text": `Match Details for Ligue 2<br />1. Auxerre  ? ? Paris FC<br />2. Red Star ? ? US Orléans<br />3. Ajaccio  ? ? Béziers<br />4. Sochaux  ? ? Niort<br /><br/> <br/> #. Next`
             })
         } else {
         var postDetails = leaguePosition[posIndex]

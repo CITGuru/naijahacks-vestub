@@ -126,13 +126,13 @@
         var started = false;
         $("#ussd_call").on("submit", (e)=>{
             e.preventDefault();
-            let sessionNumber = $('#sessionNumber').val().trim(),
+            var sessionNumber = $('#sessionNumber').val().trim(),
                 phoneNumber = $('#phoneNumber').val().trim()
             
             $("#ussdModal").modal("show");
             $("#loader").show();
             $("#ussd-port").hide();
-            let backdrop = $(".modal-backdrop").detach();
+            var backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
             $.ajax({
                 url: '<%= ussdUrl %>',
@@ -163,13 +163,13 @@
         });
         $("#ussd_respond").on("submit", (e)=>{
             e.preventDefault();
-            let sessionNumber = $('#sessionNumber').val().trim(),
+            var sessionNumber = $('#sessionNumber').val().trim(),
                 phoneNumber = $('#phoneNumber').val().trim(),
                 text = $('#text').val().trim();
             $("#ussdModal").modal("show");
             $("#loader").show();
             $("#ussd-port").hide();
-            let backdrop = $(".modal-backdrop").detach();
+            var backdrop = $(".modal-backdrop").detach();
             $(".mobile-content-inner").append(backdrop);
             $.ajax({
                 url: '<%= ussdUrl %>',

@@ -276,8 +276,6 @@ app.post('/ussd', (req, res) => {
                 "text": `Match Details for Ligue 2<br />1. Auxerre  ? ? Paris FC<br />2. Red Star ? ? US Orléans<br />3. Ajaccio  ? ? Béziers<br />4. Sochaux  ? ? Niort<br /><br/> <br/> #. Next`
             })
         } else {
-
-
         var postDetails = leaguePosition[posIndex]
 
         console.log(postDetails)

@@ -1,194 +1,340 @@
 <% include ./head %> 
-<body>
+<link href="/css/mdb.min.css" rel="stylesheet">
+<style type="text/css">
+  html,
+  body,
+  header,
+  .intro-2 {
+    height: 100%;
+  }
+  @media (max-width: 735px) {
+    html {
+      width: 104%!important;
+    }
+  }
 
-        <!-- Start your project here-->
-       <!--Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-dark info-color">
-      
-        <!-- Navbar brand -->
-        <a class="navbar-brand" href="#">Swift Scores</a>
-      
-        <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-      
-          <!-- Links -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Live Matches</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/simulator">Demo</a>
-            </li>
-      
-            <!-- Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">Results</a>
-              <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">English League Results</a>
-                <a class="dropdown-item" href="#">Italian League Results</a>
-                <a class="dropdown-item" href="#">Spanish League Results</a>
-                   <a class="dropdown-item" href="#">All Division Results</a>
-              </div>
-            </li>
-      
-          </ul>
-          <!-- Links -->
-      
-          <form class="form-inline">
-            <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search For live matches" aria-label="Search">
-                <button class="btn btn-default" id="btn_default">Submit</button>
-            </div>
-          </form>
-        </div>
-        <!-- Collapsible content -->
-      </nav>
-      <!--/.Navbar-->
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100" src="img/op.jpg" alt="First slide">
-              <div class="carousel-caption">
-            <h1 style="color: tan">Welcome To Ussd Sport</h1>
-               <h2>This is a Sporting Channel</h2>
-            </div>
-          </div>
-            
-          <div class="carousel-item">
-            <img class="d-block w-100" src="img/490618.jpg" alt="Second slide">
-              <div class="carousel-caption">
-            <h1 style="color: aliceblue;">Check Your Latest Live Marches Result</h1>
-               <h2>This is a Sporting Channel</h2>
-                
-            </div>
-          </div>
-            
-            
-          <div class="carousel-item">
-            <img class="d-block w-100" src="img/img/imo.jpeg" alt="Third slide">
-              <div class="carousel-caption">
-            <h1 style="color: white;">Dial Our Ussd Code</h1>
-               <h2>This is a Sporting Channel</h2>  
-            </div>
-            </div>
-        </div>
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            
-          <span class="carousel-control-next-icon " aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-              
-          <div class="main_content">
-              <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-4">
-              <div class="card card-size-sm">
-                   <div class="card-header unique-color lighten-1 white-text">USSD_Sports</div>
-          <div class="card-body container" id="card_body">
+  @media (max-width: 740px) {
+    html,
+    body,
+    header,
+    .intro-2 {
+      height: 900px;
+    }
+  }
+
+  @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .intro-2 {
+        height: 980px;
+      }
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+          background: #5991fb!important;
+      }
+      .navbar {
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12) !important;
+      }
+  }
+
+  .demo .card {
+    height: 350px;
+  }
+</style>
+<body class="software-lp">
+  <% include ./header %> 
+    <main class="mt-5">
+      <div class="container">
+        <h1 class="mb-3 my-5 pt-5 dark-grey-text wow fadeIn text-center" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">Our Demo</h1>
+
+      <div class="row demo mb-5">
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card">
+            <div class="card-header unique-color lighten-1 white-text">Swift Scores</div>
+            <div class="card-body container" id="card_body">
               <ol id="bdy">
-              <li>Check live scores</li>
-              <li>Check Fixtures</li>
-              <li>Checked played matches</li>
-              <li>Change Preferences</li>
-              <li>Recharge</li>
-              <li>Check Balance</li>
-              <li>Edit Profile</li>
-      
+                <li>Check live scores</li>
+                <li>Check Fixtures</li>
+                <li>Checked played matches</li>
+                <li>Change Preferences</li>
+                <li>Recharge</li>
+                <li>Check Balance</li>
+                <li>Edit Profile</li>
               </ol>
-              <input type="telephone" class="form-control frm">
-              <div class="myButton" style="float:right;">
-                  <button type="submit" class="btn deep-orange deep_orange_design">Send</button>
-              <button type="submit" class="btn btn-default deep_default_design">Cancel</button>
-              </div>
-                      </div>
-                  </div>
-                  </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-              <div class="card card-size-sm_2">
-          <div class="card-header unique-color lighten-1 white-text">Africa_Sport</div>
-          <div class="card-body container">
-          <ol id="bdy">
-              <li>English Premiership leagues</li>
-              <li>Spanish la liga</li>
-              <li>Italian Seria a</li>
-              <li>All leagues</li>
-              <li>Previous</li>
-              <li>Back</li>
+              <input type="text" class="form-control" name="response" id="" placeholder="">
+            </div>
+            <div class="md-form input-group" style="margin:0px;">
+                <div class="input-group-prepend" style="width: 100%;">
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Cancel</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card">
+            <div class="card-header unique-color lighten-1 white-text">Africa Sport</div>
+            <div class="card-body container">
+              <ol id="bdy">
+                <li>English Premiership leagues</li>
+                <li>Spanish la liga</li>
+                <li>Italian Seria a</li>
+                <li>All leagues</li>
+                <li>Previous</li>
+                <li>Back</li>
               </ol>
-              <input type="telephone" class="form-control frm">
-              <div class="myButton" style="float:right;">
-                  <button type="submit" class="btn deep-orange deep_orange_design">Send</button>
-              <button type="submit" class="btn btn-default deep_default_design">Cancel</button>
-              </div>
+              <input type="text" class="form-control" name="response" id="" placeholder="">
+            </div>
+            <div class="md-form input-group" style="margin:0px;">
+                <div class="input-group-prepend" style="width: 100%;">
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Cancel</button>
+                </div>
+            </div>
           </div>
-      </div>			
-         
-          </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="card card-size-sm_3">
-          <div class="card-header unique-color lighten-1 white-text">Welcome</div>
-          <div class="card-body container">
-          <ol id="bdy">
-              <li>New User </li>
-              <li>Already registered</li>
-              <li>Fast Track</li>
-              <li>Cancel</li>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+          <div class="card">
+            <div class="card-header unique-color lighten-1 white-text">Welcome</div>
+            <div class="card-body container">
+              <ol id="bdy">
+                <li>New User </li>
+                <li>Already registered</li>
+                <li>Fast Track</li>
+                <li>Cancel</li>
               </ol>
-              <input type="telephone" class="form-control frm" id="input_drp">
-              <div class="myButton" style="float:right;">
-                  <button type="submit" class="btn deep-orange deep_orange_design">Send</button>
-              <button type="submit" class="btn btn-default deep_default_design">Cancel</button>
-              </div>
+              <input type="text" class="form-control" name="response" id="" placeholder="">
+            </div>
+            <div class="md-form input-group" style="margin:0px;">
+                <div class="input-group-prepend" style="width: 100%;">
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Send</button>
+                  <button class="btn btn-ussd waves-effect m-0" type="button">Cancel</button>
+                </div>
+            </div>
           </div>
-      </div>	
-                  </div>
-                  
+        </div>	
       </div>
-          </div>		
-          
-      <!-- Subscribe To Our Newsletter -->
-          <div class="container contain_pop">
-              <h3>Subscribe To Our Newsletter</h3>
-              <input type="email" class="form-control" placeholder="Enter Your Email Address" required="required">
-              <button id="btn-prim" type="button" class="btn btn-primary">Submit</button>
-          </div>
-          
-          
-          
-          <div class="footer">
-                  <div class="container">
-              
-                  <p>copyright &copy; 2018</p>
-              </div>
-          
-          </div>
+      </div>
+      <div class="streak streak-md streak-photo" style="background-image:url('https://mdbootstrap.com/img/Photos/Others/architecture.jpg')">
+            <div class="flex-center white-text blue-gradient-mask">
+                <div class="container py-3">
+
+                    <!--Section: Features v.4-->
+                    <section class="section feature-box wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+
+                        <!--Section heading-->
+                        <h1 class="py-5 my-5 white-text text-center wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">Our Features</h1>
+
+                        <!--Grid row-->
+                        <div class="row features-small mb-5">
+
+                            <!--Grid column-->
+                            <div class="col-md-12 col-lg-4">
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-tablet blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Fully Offline</h5>
+                                        <p class="white-text">You don't need to get connected to the internet</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-level-up blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Fast and Powerful</h5>
+                                        <p class="white-text">Its fast compared to checking the internet</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-phone blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Affordable</h5>
+                                        <p class="white-text">Our Subscriptions are affordable</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-md-12 col-lg-4 px-5 mb-2 text-center text-md-left flex-center">
+                                <img src="/img/img/livescores-demo.png" alt="" class="z-depth-0 img-fluid">
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-md-12 col-lg-4">
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-object-group blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Send Updates</h5>
+                                        <p class="white-text">You can subscribe to recieve daily, weekly updates on sports</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-rocket blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Sports Prediction</h5>
+                                        <p class="white-text">You can get sports predictions directly from our solution</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row mb-5">
+                                    <div class="col-3">
+                                        <a type="button" class="btn-floating white btn-lg my-0 waves-effect waves-light"><i class="fa fa-cloud-upload blue-text" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="font-weight-bold white-text">Favourites</h5>
+                                        <p class="white-text">You can get subscribe to your favourites sports</p>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+                        <!--Grid row-->
+
+                    </section>
+                    <!--/Section: Features v.4-->
+                </div>
+            </div>
+        </div>
+      <div class="container">
+       <section class="section mt-4 mb-5">
+
+                <!--Section heading-->
+                <h1 class="mb-3 my-5 pt-5 text-center dark-grey-text wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">Our Subscriptions</h1>
+
+                <!--Section description-->
+                <p class="text-center w-responsive mx-auto my-5 grey-text">We have affordable subscriptions that got you covered</p>
+
+                <!--First row-->
+                <div class="row">
+
+                    <!--First column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <!--Card-->
+                        <div class="card">
+
+                            <!--Content-->
+                            <div class="text-center">
+                                <div class="card-body">
+                                    <h5>Per session / Daily plan</h5>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="card-circle d-flex justify-content-center align-items-center">
+                                            <i class="fa fa-home blue-text"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--Price-->
+                                    <h2 class="font-weight-bold dark-grey-text mt-3"><strong>N10</strong></h2>
+                                    <p class="grey-text">This a per session / daily plan</p>
+                                    <a class="btn btn-blue font-weight-bold btn-rounded waves-effect waves-light">Subscribe now</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+                    <!--/First column-->
+
+                    <!--Second column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <!--Card-->
+                        <div class="card blue-gradient">
+
+                            <!--Content-->
+                            <div class="text-center white-text">
+                                <div class="card-body">
+                                    <h5>Weekly Plan</h5>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="card-circle d-flex justify-content-center align-items-center">
+                                            <i class="fa fa-group white-text"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--Price-->
+                                    <h2 class="font-weight-bold white-text mt-3"><strong>N50</strong></h2>
+                                    <p>This is a weekly plan</p>
+                                    <a class="btn btn-white font-weight-bold btn-rounded waves-effect waves-light">Subscribe now</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+                    <!--/Second column-->
+
+                    <!--Third column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <!--Card-->
+                        <div class="card">
+
+                            <!--Content-->
+                            <div class="text-center">
+                                <div class="card-body">
+                                    <h5>Monthly plan</h5>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="card-circle d-flex justify-content-center align-items-center">
+                                            <i class="fa fa-bar-chart blue-text"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--Price-->
+                                    <h2 class="font-weight-bold dark-grey-text mt-3"><strong>N100</strong></h2>
+                                    <p class="grey-text">This is a Monthly plan</p>
+                                    <a class="btn btn-blue font-weight-bold btn-rounded waves-effect waves-light">Subscribe now</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+                    <!--/Third column-->
+
+                </div>
+                <!--/First row-->
+
+            </section>
+    
+      </div>          
+     </main>
+    <div class="footer">
+            <div class="container">
+        
+            <p>copyright &copy; 2018</p>
+        </div>
+    
+    </div>
           
           
           
@@ -196,6 +342,17 @@
       
         <!-- SCRIPTS -->
         <% include ./script %> 
+        <script>
+            //Animation init
+            new WOW().init();
+    
+            //Modal
+    
+            // Material Select Initialization
+            $(document).ready(function () {
+                $('.mdb-select').material_select();
+            });
+        </script>
         
       </body>
       

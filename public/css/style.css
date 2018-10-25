@@ -1,198 +1,8 @@
-@font-face{
-	font-family:'Helvetica-Black.otf';
-	src:url('./fonts/Helvetica-Black.otf');
-}
 *{
 	padding:0px;
 	margin:0px;
 }
-#btn_default{
-	background-color:cornflowerblue !important;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-.main_content{
-	clear: both;
-	margin-top:60px;
-	margin-left: 40px;
-}
 
-
-
-
-/*carousel design*/
-.carousel .carousel-control-next-icon{
-	background-color:transparent;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-position:cover;
-	color: red !important;
-	font-size: 50px !important;
-}
-.carousel-control-next-icon{
-	color: red !important;
-	font-size: 200px !important;
-	background: green;
-	font-weight: bolder;
-	padding: 20px;
-} 
-.carousel .carousel-control-prev-icon{
-	background-color:transparent;
-	background-repeat: no-repeat;
-	color: red !important;
-	font-size: 50px !important;
-}
-.carousel-control-prev-icon{
-	color: red !important;
-	font-size: 200px !important;
-	background: green;
-	font-weight: bolder;
-	padding: 50px;
-} 
-.carousel-caption{
-	margin-top: -800px;
-}
-.carousel-caption h1{
-	color:mediumpurple;
-	margin-top: -400px;
-	font-weight:900;
-	font-size: 50px;
-	font-family: sans-serif;
-}
-/*end of carousel design*/
-.card-size-sm{
-	height: 400px;
-	width:400px;
-	
-}
-.card-size-sm #bdy{
-padding: 12px !important;	
-}
-
-.card-body .frm{
-	border:0px;
-	border-bottom: 2px solid #000;
-	border-radius: 0px;
-}
-.card-size-sm .card-body .myButton{
-	margin-top:20px;
-	margin-left: 30px;
-}
-.card-size-sm .card-body .deep_orange_design{
-	height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color: transparent !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	
-}
-.card-size-sm .card-body .deep_default_design{
-height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color: black !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-/*card-size-sm-2*/
-.card-size-sm_2{
-	margin-top: -2px;
-	height: 400px;
-	width: 400px;
-	color:black;
-}
-.card-size-sm_2 .card-body #bdy{
-	padding:13px;
-}
-.card-size-sm_2 .card-body .deep_orange_design{
-		height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color: transparent !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.card-size-sm_2 .card-body .deep_default_design{
-height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color: #000 !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.card-size-sm_2 .card-body .myButton{
-	margin-top:50px;
-	margin-left: 30px;
-}
-/*card 3*/
-.card-size-sm_3{
-	margin-top: -3px;
-	height: 400px;
-	width: 400px;
-	color:black;
-}
-.card-size-sm_3 .card-body #bdy{
-	padding:13px;
-}
-.card-size-sm_3 .card-body .deep_orange_design{
-	height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color: transparent !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.card-size-sm_3 .card-body .deep_default_design{
-height: 30px;
-	width: 120px;
-	text-align:center;
-	padding-right: 10px;
-	background-color:#000 !important;
-	color: black;
-	padding-left: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.card-size-sm_3 .card-body #input_drp{
-	margin-top: 50px !important;
-}
-.card-size-sm_3 .card-body .myButton{
-	margin-top:60px;
-	margin-left: 30px;
-}
-.contain_pop{
-	padding-top: 50px;
-	padding-bottom: 50px;
-	width: 400px;
-	
-}
-.contain_pop #btn-prim{
-	border-radius: 0px;
-	border:0px;
-	margin-top: -58px;
-	margin-left: 370px;
-/*	height: 50px;*/
-	padding-top:8px;
-	padding-bottom:8px;
-}
 /*Footer design*/
 .footer{
 margin-top: 30px;
@@ -204,7 +14,6 @@ background-color: cadetblue;
 	color: #FFF;
 	text-transform:capitalize;
 }
-
 
 .mobile-content {
     height: 32.3rem;
@@ -298,4 +107,26 @@ background-color: cadetblue;
     font-size: .875rem;
 	cursor: default;
 	background: #59698d;
+}
+
+@media (max-width: 500px) {
+	.simulator.container {
+		padding: 4px!important;
+		margin: 4px!important;
+	}
+	.simulator .col {
+		padding: 0px;
+	}
+	.simulator .simulator-inner {
+		padding: 0px;
+	}
+}
+
+button.btn.btn-ussd {
+	background: whitesmoke;
+	padding-left: 15px;
+	padding-right: 15px;
+	color: black;
+	width: 49.9%;
+	box-shadow: none;
 }

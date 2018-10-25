@@ -49,6 +49,7 @@
     "mongoose-auto-increment": "^5.0.1",
     "npm-install-missing": "^0.1.4",
     "popper": "^1.0.1",
+    "pretty-error": "^2.1.1",
     "pump": "^1.0.3",
     "randomstring": "^1.1.5",
     "tether": "^1.4.5",

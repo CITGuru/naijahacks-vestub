@@ -59,6 +59,7 @@ app.get('/simulator', (req, res) => {
 
 app.post('/simulator/ussd', (req, res) => {
     let session_number = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    console.log(req.body)
     res.render("ussd", Object.assign({
         "title": "USSD Mobile Simulator",
         "sessionNumber": session_number,

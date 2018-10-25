@@ -36,7 +36,7 @@
                                     <input type="hidden" id="sessionNumber" name="sessionNumber" value="<%= sessionNumber %>">
                                     <div class="form-md mb-3">
                                         <label for="service_code" class="font-weight-bold">USSD Code</label>
-                                        <input type="text" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
+                                        <input type="text" autocomplete="false" required class="form-control" name="service_code" id="service_code" placeholder="*453#">
                                     </div>
                                     <button class="btn btn-primary btn-block">Call</button>
                                 </form>
@@ -97,9 +97,9 @@
                                         </div>
                                         <div id="ussd-port">
                                             <div class="display px-3 py-3"></div>
-                                            <form id="ussd_respond" method="POST">
+                                            <form id="ussd_respond" autocomplete="false" method="POST">
                                             <div class="form-md">
-                                                <input type="text" class="form-control" name="text" id="text">
+                                                <input autocomplete="false" required type="text" class="form-control" name="text" id="text">
                                             </div>
                                             <div class="md-form input-group" style="margin:0px;">
                                                 <div class="input-group-prepend" style="width: 100%;">
@@ -143,14 +143,21 @@
                     phoneNumber: phoneNumber
                 },
                 success: function(res) {
-                    $("#loader").hide();
+                    $('#text').val("");
+                    setTimeout(function(){
+                        $("#loader").hide();
                     $("#ussd-port").show();
+                    }, 1000);
+                    
                     $("#ussdModal .display").html(res.text);
                 },
                 err: function(err) {
+                    $('#text').val("");
                     $("#ussdModal .display").html(err.text);
-                    $("#loader").hide();
+                    setTimeout(function(){
+                        $("#loader").hide();
                     $("#ussd-port").show();
+                    }, 1000);
                 }
             });
         });
@@ -175,16 +182,21 @@
                 success: function(res) {
                     $('#text').val("");
                     $("#ussdModal .display").html(res.text);
-                    $("#loader").hide();
+                    setTimeout(function(){
+                        $("#loader").hide();
                     $("#ussd-port").show();
+                    }, 1000);
                     if (res.phoneNumber){
-                        $('#sessionNumber').val(res.phoneNumber)
+                        $('#phoneNumber').val(res.phoneNumber)
                     }
                 },
                 err: function(err) {
+                    $('#text').val("");
                     $("#ussdModal .display").html(err.text)
-                    $("#loader").hide();
+                    setTimeout(function(){
+                        $("#loader").hide();
                     $("#ussd-port").show();
+                    }, 1000);
 
                 }
             });
